@@ -293,15 +293,6 @@
                         }
                     },
                     {
-                        "name": "password_confirmation",
-                        "in": "query",
-                        "description": "password_confirmation",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "author",
                         "in": "query",
                         "description": "author",

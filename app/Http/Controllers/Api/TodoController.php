@@ -95,15 +95,6 @@ class TodoController extends Controller
      *          )
      *     ),
      *     @OA\Parameter(
-     *          name="password_confirmation",
-     *          description="password_confirmation",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *     ),
-     *     @OA\Parameter(
      *          name="author",
      *          description="author",
      *          required=true,
@@ -120,7 +111,7 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        $validation = Validator::make($request->only('title','slug','description','author'), [
+        $validation = Validator::make($request->all(), [
             "title"     => "required|string|max:40",
             "description"     => "required|string|max:500",
             "author"      => "required",
@@ -134,8 +125,8 @@ class TodoController extends Controller
             $todo               = new Todo();
             $todo->title        = $request->title;
             $todo->slug         = Str::slug($request->title);
-            $todo->author       = Auth::user()->id;
             $todo->description  = $request->description;
+            $todo->author       = Auth::user()->id;
             $todo->save();
 
             return ResponseHelper::responseCreated('Todo List has been added successfully!', $todo);
