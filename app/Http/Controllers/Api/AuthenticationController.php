@@ -135,33 +135,72 @@ class AuthenticationController extends Controller
      * )
      */
 
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => ['required', 'email'],
+    //         'password' => ['required'],
+    //     ]);
+
+    //     if (Auth::attempt($credentials)) {
+    //         $status = 200;
+    //         $user = Auth::user();
+    //         $response = [
+    //                 'status' => true,
+    //                 'message' => 'You have successfully logged in!',
+    //                 'user' => array_merge($user->toArray(),
+    //                 ['roles' => $user->roles()->get()->toArray()]),
+    //                 'token' => JWTAuth::fromUser($user),
+
+    //     ];
+    //     }  else {
+    //         $status = 422;
+    //         $response = ['error' => 'The email or password is incorrect.'];
+    //     }
+
+    //     return response()->json($response, $status);
+    // }
+
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        $credentials = $request->only('email', 'password');
+        //valid credential
+        $validator = Validator::make($credentials, [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6|max:50'
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $status = 200;
-            $user = Auth::user();
-            $response = [
-                    'status' => true,
-                    'message' => 'You have successfully logged in!',
-                    'user' => array_merge($user->toArray(),
-                    ['roles' => $user->roles()->get()->toArray()]),
-                    'token' => JWTAuth::fromUser($user),
-
-        ];
-        }  else {
-            $status = 422;
-            $response = ['error' => 'The email or password is incorrect.'];
+        if ($validator->fails()) {
+            return ResponseHelper::responseValidation($validator->errors());
         }
 
-        return response()->json($response, $status);
+        // Request divalidasi
+        // buat token
+        try {
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json([
+                	'success' => false,
+                	'message' => 'Login credentials are invalid.',
+                ], 400);
+            }
+        } catch (JWTException $e) {
+    	return $credentials;
+            return response()->json([
+                	'success' => false,
+                	'message' => 'Could not create token.',
+                ], 500);
+        }
+
+ 		//Token dibuat, kembali dengan respons sukses dan token jwt
+        $user = Auth::user();
+        return response()->json([
+            'success' => true,
+            'token' => $token,
+            'user' => array_merge($user->toArray(),
+            ['roles' => $user->roles()->get()->toArray()]),
+        ]);
+
     }
-
-
     /**
      * @OA\Get(
      *     path="/api/user",
