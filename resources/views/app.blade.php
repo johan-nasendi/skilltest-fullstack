@@ -86,9 +86,8 @@
 
         });
 
-
-
     </script>
+    <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
 </body>
 
 </html>
