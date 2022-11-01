@@ -118,7 +118,7 @@ export default {
     },
     methods: {
       loginForm() {
-        axios.post('https://testskill-fullstack.herokuapp.com/api/login', {
+        axios.post('https://testskill-fullstack.herokuapp.com/api/login/', {
             email: this.email,
             password: this.password
           })
@@ -128,14 +128,15 @@ export default {
 
             let loginType = response.data.user.roles[0].name
             if (loginType === 'user') {
+                this.$router.push({
+                    name: 'user',
+                })
                 this.$notify({
                     type: "success",
                     title: "Welcome",
                     text: response.data.message,
                 });
-                this.$router.push({
-                    name: 'user',
-                })
+
 
             } else if (loginType === 'admin') {
                 this.$notify({
