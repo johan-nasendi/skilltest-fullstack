@@ -123,20 +123,19 @@ export default {
             password: this.password
           })
           .then(response => {
-            localStorage.setItem('user', JSON.stringify(response.data.user))
+            localStorage.setItem('user', JSON.parse(response.data.user))
             localStorage.setItem('token', response.data.token)
 
             let loginType = response.data.user.roles[0].name
             if (loginType === 'user') {
-                this.$router.push({
-                    name: 'user',
-                })
                 this.$notify({
                     type: "success",
                     title: "Welcome",
                     text: response.data.message,
                 });
-
+                this.$router.push({
+                    name: 'user',
+                })
 
             } else if (loginType === 'admin') {
                 this.$notify({
@@ -164,7 +163,7 @@ export default {
 
           })
           .catch(error => {
-              if(error.response.status === 422){
+              if(error.response.status === 500){
                  this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
               }
               this.error = error.response.data.error
