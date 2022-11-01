@@ -1,22 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
-    <title>{{env('APP_NAME')}}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <meta charset="utf-8">
-    <meta property="og:locale" content="id_ID" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Test SKill" />
-    <meta property="og:description" content="Test SKill" />
-    <meta property="og:url" content="#" />
-    <meta property="og:site_name" content="Test SKill" />
-    <meta property="og:image" content="#" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="Hello." name="Test SKill" />
-    <meta content="Coderthemes" name="Johan Nasendi" />
+    <meta name="author" content="Johan Nasendi">
+    <meta name="description" content=" Documentation API">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{csrf_token()}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- CSS mix -->
     <link href=" {{ mix('css/app.css') }}" rel="stylesheet">
 
@@ -87,7 +78,7 @@
         });
 
     </script>
-    <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
+
 </body>
 
 </html>
