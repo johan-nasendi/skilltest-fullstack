@@ -1,32 +1,87 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-require('./bootstrap');
+require('./bootstrap')
 
 window.Vue = require('vue').default;
+import { createApp } from 'vue';
+import App from './App.vue'
+import axios from 'axios'
+import router from './routes'
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+const app = createApp(App).use()
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+app.config.globalProperties.$axios = axios;
 
-const app = new Vue({
-    el: '#app',
-});
+
+// components
+app.component('header-component', require('./components/layouts/Header.vue').default);
+app.component('footer-component', require('./components/layouts/Footer.vue').default);
+app.component('sidebar-component', require('./components/layouts/Sidebar.vue').default);
+
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        let token = localStorage.getItem('token') != null;
+        if (!token) {
+            next({
+                path: '/login',
+                query: {
+                    redirect: to.fullPath
+                }
+            })
+        } else {
+            let user = JSON.parse(localStorage.getItem('user'))
+            let roles = user.roles.map(role => role.name)
+            console.log(roles[0]);
+            if (to.matched.some(record => record.meta.isUser)) {
+                if (roles.includes('user')) next()
+                else if (roles[0] === 'admin') {
+                    next({
+                        name: 'admin'
+                    })
+                } else if (roles[0] === 'mentor') {
+                    next({
+                        name: 'mentor'
+                    })
+                } else next({
+                    name: 'PageNotExist'
+                })
+            } else if (to.matched.some(record => record.meta.isAdmin)) {
+                if (roles.includes('admin')) next()
+                else if (roles[0] === 'mentor') {
+                    next({
+                        name: 'mentor'
+                    })
+                } else if (roles[0] === 'user') {
+                    next({
+                        name: 'user'
+                    })
+                } else next({
+                    name: 'PageNotExist'
+                })
+
+            } else if (to.matched.some(record => record.meta.isMentor)) {
+                if (roles.includes('mentor')) next()
+                else if (roles[0] === 'user') {
+                    next({
+                        name: 'user'
+                    })
+                } else if (roles[0] === 'admin') {
+                    next({
+                        name: 'admin'
+                    })
+                } else next({
+                    name: 'PageNotExist'
+                })
+
+            } else {
+                next()
+            }
+        }
+    } else {
+        next()
+    }
+})
+
+app.use(router)
+app.mount('#app')

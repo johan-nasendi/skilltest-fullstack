@@ -1,8 +1,162 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css');
+@import url('https://unpkg.com/dropzone@5/dist/min/dropzone.min.css');
+@import '../../public/assets/css/app.min.css';
+@import '../../public/assets/css/icons.min.css';
+@import '../../public/assets/libs/dropify/css/dropify.min.css';
+@import '../../public/assets/libs/flatpickr/flatpickr.min.css';
+@import '../../public/assets/libs/select2/css/select2.min.css';
+// alert
+::-webkit-scrollbar {
+    width: 5px;
+}
 
-// Variables
-@import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background-color: #ecf0f1;
+    border-radius: 100px;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #2d3436;
+}
+
+
+/* Demo Styles */
+
+#content {
+    margin: 0 auto;
+    padding-bottom: 50px;
+    width: 80%;
+    max-width: 978px;
+}
+
+
+/* The Loader */
+
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    overflow: hidden;
+    // Modernizr no-js fallback
+    .no-js & {
+        display: none;
+    }
+}
+
+#loader {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 10px solid transparent;
+    border-top-color: #16a085;
+    animation: spin 1.7s linear infinite;
+    z-index: 11;
+    &:before {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border-radius: 50%;
+        border: 10px solid transparent;
+        border-top-color: #b33939;
+        animation: lol .6s linear infinite;
+    }
+    &:after {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        border-radius: 50%;
+        border: 10px solid transparent;
+        border-top-color: #cc8e35;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes lol {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#loader-wrapper .loader-section {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #353b48;
+    z-index: 10;
+}
+
+
+/* Loaded styles */
+
+.loaded #loader {
+    opacity: 0;
+    filter: blur(5px);
+    transition: all 0.10s ease-out;
+}
+
+.loaded #loader-wrapper {
+    visibility: hidden;
+    animation: fade 1.5s linear;
+}
+
+@keyframes fade {
+    from {
+        opacity: 1;
+        filter: blur(5px);
+        visibility: visible;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
