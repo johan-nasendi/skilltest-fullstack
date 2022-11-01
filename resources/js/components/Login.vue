@@ -82,6 +82,10 @@
                                  <p class="text-muted mb-4 mt-3">I don't have an account yet?
                                     <router-link class="text-white ml-1" :to="{name: 'register'}"> Sign Up Now</router-link>
                                  </p>
+                                 <br>
+                                 <p class="text-muted mb-4 mt-3"> Docs API
+                                   <a href="https://testskill-fullstack.herokuapp.com/api/documentation" class="text-white ml-1" target="_blank">Docs API</a>
+                                 </p>
 
                             </div>
                         </div>
@@ -107,9 +111,9 @@ export default {
       }
     },
     created() {
-      if (this.$route.params.message !== JSON.parse(undefined)) {
-        this.message = this.$route.params.message + ' Please login!'
-      }
+    //   if (this.$route.params.message !== JSON.parse(undefined)) {
+    //     this.message = this.$route.params.message + ' Please login!'
+    //   }
     },
     computed: {
         buttonLabelFirst() {
