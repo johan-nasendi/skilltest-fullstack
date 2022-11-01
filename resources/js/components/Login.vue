@@ -110,7 +110,7 @@ export default {
       }
     },
     created() {
-      if (this.$route.params.message !== JSON.parse('undefined')) {
+      if (this.$route.params.message !== undefined) {
         this.message = this.$route.params.message + ' Please login!'
       }
     },
@@ -127,7 +127,7 @@ export default {
           })
           .then(response => {
             localStorage.setItem('user', JSON.parse(response.data.user))
-            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('token', JSON.parse(response.data.token))
 
             let loginType = response.data.user.roles[0].name
             if (loginType === 'user') {
