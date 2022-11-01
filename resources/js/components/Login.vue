@@ -82,8 +82,7 @@
                                  <p class="text-muted mb-4 mt-3">I don't have an account yet?
                                     <router-link class="text-white ml-1" :to="{name: 'register'}"> Sign Up Now</router-link>
                                  </p>
-                                 <br>
-                                 <p class="text-muted mb-4 mt-3"> Docs API
+                                 <p class="text-white mb-4 mt-3">
                                    <a href="https://testskill-fullstack.herokuapp.com/api/documentation" class="text-white ml-1" target="_blank">Docs API</a>
                                  </p>
 
@@ -111,9 +110,9 @@ export default {
       }
     },
     created() {
-    //   if (this.$route.params.message !== JSON.parse(undefined)) {
-    //     this.message = this.$route.params.message + ' Please login!'
-    //   }
+      if (this.$route.params.message !== JSON.parse('undefined')) {
+        this.message = this.$route.params.message + ' Please login!'
+      }
     },
     computed: {
         buttonLabelFirst() {
@@ -122,12 +121,12 @@ export default {
     },
     methods: {
       loginForm() {
-        axios.post('https://testskill-fullstack.herokuapp.com/api/login/', {
+        axios.post('https://testskill-fullstack.herokuapp.com/api/login', {
             email: this.email,
             password: this.password
           })
           .then(response => {
-            localStorage.setItem('user', JSON.stringify(response.data.user))
+            localStorage.setItem('user', JSON.parse(response.data.user))
             localStorage.setItem('token', response.data.token)
 
             let loginType = response.data.user.roles[0].name
