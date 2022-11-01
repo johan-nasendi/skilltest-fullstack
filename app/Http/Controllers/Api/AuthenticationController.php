@@ -146,6 +146,7 @@ class AuthenticationController extends Controller
             $status = 200;
             $user = Auth::user();
             $response = [
+                    'status' => true,
                     'message' => 'You have successfully logged in!',
                     'user' => array_merge($user->toArray(),
                     ['roles' => $user->roles()->get()->toArray()]),

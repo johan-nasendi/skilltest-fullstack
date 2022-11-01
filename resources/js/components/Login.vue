@@ -164,7 +164,7 @@ export default {
 
           })
           .catch(error => {
-              if(error.response.status === 500){
+              if(error.response.status === 422){
                  this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
               }
               this.error = error.response.data.error
