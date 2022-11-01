@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@kyvg/vue3-notification": "^2.6.1",
         "@vue/compiler-sfc": "^3.2.41",
         "vue-router": "^4.1.6"
     }

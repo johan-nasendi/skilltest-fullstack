@@ -11,7 +11,7 @@ import MySidebar from '../components/layouts/Sidebar.vue'
 import MyFooter from '../components/layouts/Footer.vue'
 
 // Dashboard student
-
+import Dashboard from '../pages/Dashboard.vue'
 
 
 export const routes = [
@@ -36,20 +36,20 @@ export const routes = [
         name: 'register',
         component: Register
     },
-    // {
-    //     path: '/dashboard/student',
-    //     name: 'user',
-    //     components: {
-    //         default: () => Dashboarduser,
-    //         HeaderComponent: () => MyHeader,
-    //         SidebarComponent: () => MySidebar,
-    //         FooterComponent: () => MyFooter,
-    //     },
-    //     meta: {
-    //         requireAuth: true,
-    //         isUser: true
-    //     }
-    // },
+    {
+        path: '/dashboard',
+        name: 'user',
+        components: {
+            default: () => Dashboard,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        }
+    },
 
 ];
 

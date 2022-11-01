@@ -5,7 +5,7 @@ import { createApp } from 'vue';
 import App from './App.vue'
 import axios from 'axios'
 import router from './routes'
-
+import Notifications from '@kyvg/vue3-notification'
 
 
 const app = createApp(App).use()
@@ -17,7 +17,7 @@ app.config.globalProperties.$axios = axios;
 app.component('header-component', require('./components/layouts/Header.vue').default);
 app.component('footer-component', require('./components/layouts/Footer.vue').default);
 app.component('sidebar-component', require('./components/layouts/Sidebar.vue').default);
-
+app.use(Notifications)
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {

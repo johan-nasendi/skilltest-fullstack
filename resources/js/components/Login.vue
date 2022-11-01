@@ -118,7 +118,7 @@ export default {
     },
     methods: {
       loginForm() {
-        axios.post('/api/login/', {
+        axios.post('https://testskill-fullstack.herokuapp.com/api/login', {
             email: this.email,
             password: this.password
           })
@@ -130,7 +130,7 @@ export default {
             if (loginType === 'user') {
                 this.$notify({
                     type: "success",
-                    title: "Hi Student",
+                    title: "Welcome",
                     text: response.data.message,
                 });
                 this.$router.push({
