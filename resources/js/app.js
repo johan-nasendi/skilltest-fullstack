@@ -7,7 +7,6 @@ import axios from 'axios'
 import router from './routes'
 import Notifications from '@kyvg/vue3-notification'
 import VueFeather from 'vue-feather';
-import store from './store/auth.module';
 const app = createApp(App).use()
 
 app.config.globalProperties.$axios = axios;

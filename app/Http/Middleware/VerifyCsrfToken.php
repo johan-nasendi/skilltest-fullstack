@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Middleware;
+use Closure;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
-class VerifyCsrfToken extends Middleware
+class VerifyCsrfToken extends BaseVerifier
 {
     /**
      * The URIs that should be excluded from CSRF verification.
@@ -12,6 +13,17 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'https://testskill-fullstack.herokuapp.com/api/*'
+        'api/*'
     ];
+
+    public function handle($request, Closure $next)
+    {
+        foreach ($this->except as $except) {
+            if ($request->is($except)) {
+                return $next($request);
+            }
+        }
+
+        return parent::handle($request, $next);
+    }
 }

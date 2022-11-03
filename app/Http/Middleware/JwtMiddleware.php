@@ -3,24 +3,24 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
-use Tymon\JWTAuth\Facades\JWTAuth as FacadesJWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+use Illuminate\Http\Request;
 
 class JwtMiddleware extends BaseMiddleware
 {
-
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         try {
-            $user = FacadesJWTAuth::parseToken()->authenticate();
+            $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
                 return response()->json(['status' => 'Token is Invalid']);
@@ -31,5 +31,6 @@ class JwtMiddleware extends BaseMiddleware
             }
         }
         return $next($request);
-    }
+       }
+
 }
