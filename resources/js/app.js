@@ -6,11 +6,12 @@ import App from './App.vue'
 import axios from 'axios'
 import router from './routes'
 import Notifications from '@kyvg/vue3-notification'
-
+import VueFeather from 'vue-feather';
 
 const app = createApp(App).use()
 
 app.config.globalProperties.$axios = axios;
+app.config.productionTip = true
 
 
 // components
@@ -18,6 +19,7 @@ app.component('header-component', require('./components/layouts/Header.vue').def
 app.component('footer-component', require('./components/layouts/Footer.vue').default);
 app.component('sidebar-component', require('./components/layouts/Sidebar.vue').default);
 app.use(Notifications)
+app.component(VueFeather.name, VueFeather);
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {

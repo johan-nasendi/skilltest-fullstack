@@ -12,21 +12,14 @@
 
                              <a v-if="loginType === 'user'" class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                                  <img v-if="user.photo" :src="'/photos/'+user.photo" alt="user-image" class="rounded-circle">
-                                 <img v-else src="/assets/images/users/user.jpg" alt="user-image" class="rounded-circle">
+                                 <img v-else src="/assets/images/users/user-5.jpg" alt="user-image" class="rounded-circle">
                                  <span class="pro-user-name ml-1">
                                          {{user.name}} <i class="mdi mdi-chevron-down"></i>
                                  </span>
                              </a>
                              <a v-if="loginType === 'admin'" class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                                  <img v-if="user.photo" :src="'/photos/'+user.photo" alt="user-image" class="rounded-circle">
-                                 <img v-else src="/assets/images/users/user.jpg" alt="user-image" class="rounded-circle">
-                                 <span class="pro-user-name ml-1">
-                                         {{user.name}} <i class="mdi mdi-chevron-down"></i>
-                                 </span>
-                             </a>
-                             <a v-if="loginType === 'mentor'" class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                                 <img v-if="user.photo" :src="'/photos/'+user.photo" alt="user-image" class="rounded-circle">
-                                 <img v-else src="/assets/images/users/user.jpg" alt="user-image" class="rounded-circle">
+                                 <img v-else src="/assets/images/users/user-5.jpg" alt="user-image" class="rounded-circle">
                                  <span class="pro-user-name ml-1">
                                          {{user.name}} <i class="mdi mdi-chevron-down"></i>
                                  </span>
@@ -34,21 +27,7 @@
 
                              <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                  <!-- item-->
-                                 <a class="dropdown-item notify-item">
-                                     <router-link class="text-dark" :to="{name: 'profile'}">
-                                     <!-- <i class="fe-user"></i> -->
-                                     <vue-feather type="user" stroke-width="1" size="1.1rem"></vue-feather>
-                                     <span>My Account</span>
-                                     </router-link>
-                                 </a>
 
-                                 <a class="dropdown-item notify-item">
-                                     <router-link class="text-dark" :to="{name: 'profilechangespassword'}">
-                                     <!-- <i class="fe-user"></i> -->
-                                     <vue-feather type="lock" stroke-width="1" size="1.1rem"></vue-feather>
-                                     <span>Change Password</span>
-                                     </router-link>
-                                 </a>
                                  <div class="dropdown-divider"></div>
                                  <!-- item-->
                                  <a href="javascript:void()" class="dropdown-item notify-item" @click="logout">
@@ -132,7 +111,9 @@ data() {
      if(this.isLoggedIn)
      {
      } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-         axios.get(`/api/user`)
+         axios.get('api/user',
+         { useCredentails: true }
+         )
          .then(response => {
                  this.user = response.data
                  this.loginType = response.data.roles[0].name

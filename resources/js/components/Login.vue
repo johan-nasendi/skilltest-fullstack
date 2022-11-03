@@ -121,11 +121,19 @@ export default {
         },
     },
     methods: {
-      loginForm() {
-        axios.post('https://testskill-fullstack.herokuapp.com/api/login/', {
+    async loginForm() {
+        const headers = {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+
+       await axios.post('/api/login',
+        {
+            headers: headers,
+            useCredentails: true,
             email: this.email,
             password: this.password
           })
+
           .then(response => {
             localStorage.setItem('user', JSON.stringify(response.data.user))
             localStorage.setItem('token', response.data.token)
@@ -170,12 +178,13 @@ export default {
               if(error.response.status === 500){
                  this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
               }
-              this.error = error.response.data.error
+              this.error = error.response.data.message
           });
       },
       toggleShow() {
             this.showPassword = !this.showPassword;
         },
+
     }
 }
 </script>
