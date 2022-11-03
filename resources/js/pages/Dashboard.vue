@@ -1,6 +1,6 @@
 <template>
     <div class="content-page mt-1" v-if="isLoggedIn">
-        <div class="content" v-if="loginType === 'user'">
+        <div class="content" v-if="loginType = 'user'">
             <div class="container-fluid">
                 <!-- Start page title -->
                 <div class="row">
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="text-right">
-                                        <h3 class="text-white my-1"><span data-plugin="counterup">50</span></h3>
+                                        <h3 class="text-white my-1"><span data-plugin="counterup">60</span></h3>
                                         <p class="text-muted mb-0 text-truncate">My Task</p>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                 <div class="col-6">
                                     <div class="text-right">
                                         <h3 class="text-white my-1"><span data-plugin="counterup"> 50 </span></h3>
-                                        <p class="text-muted mb-0 text-truncate"> Todo List </p>
+                                        <p class="text-muted mb-0 text-truncate"> Members </p>
                                     </div>
                                 </div>
                             </div>
@@ -67,13 +67,13 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="avatar-md bg-success rounded">
-                                        <i class="fe-users avatar-title font-22 text-white"></i>
+                                        <i class="fe-check avatar-title font-22 text-white"></i>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="text-right">
-                                        <h3 class="text-white my-1"><span data-plugin="counterup">50</span></h3>
-                                        <p class="text-muted mb-0 text-truncate">Mebers</p>
+                                        <h3 class="text-white my-1"><span data-plugin="counterup">40</span></h3>
+                                        <p class="text-muted mb-0 text-truncate"> Data </p>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="text-right">
-                                        <h3 class="text-white my-1"><span data-plugin="counterup">50</span></h3>
+                                        <h3 class="text-white my-1"><span data-plugin="counterup">30</span></h3>
                                         <p class="text-muted mb-0 text-truncate">Other Items</p>
                                     </div>
                                 </div>
@@ -97,7 +97,6 @@
                         </div> <!-- end card-box-->
                     </div> <!-- end col -->
                 </div>
-                <!-- end row card-->
 
 
             </div>
@@ -126,42 +125,39 @@ export default {
     },
      mounted() {
       this.setUser()
+
     },
     methods: {
        setUser() {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
 
-           axios.get('https://testskill-fullstack.herokuapp.com/api/user',{ useCredentails: true })
+          axios.get(`https://testskill-fullstack.herokuapp.com/api/user`,)
             .then(response => {
                 this.user = response.data
                 this.loginType = response.data.roles[0].name
             })
             .catch(error => {
-            if (error.response.status === 422) {
-                localStorage.clear();
-                this.$router.push('/login')
-            }
-           if(error.response.status === 500){
-                    this.serverErros = error.response.message + ' Opsss... Internal Server Error,Try once Again!'
-             }
+                if (error.isLoggedIn) {
+                    localStorage.clear();
+                    this.$router.push('/login')
+                }
+
             })
         },
 
-        getDataCount(){
-            axios.get('/api/user/dailyreport')
-                .then(response => {
-                    this.daily = response.data.daily
-            }).catch(error => {
-                console.error(error);
-                this.daily = []
+        getDataComplateDocs(){
+            axios.get('/api/user/documents')
+            .then(response => {
+                this.warningDocs = response.data.documents
             }).catch(error => {
                 if(error.response.status === 500){
                     this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
                 }
-            });
-        },
+                this.warningDocs = []
+            })
 
+        }
     }
 }
 </script>

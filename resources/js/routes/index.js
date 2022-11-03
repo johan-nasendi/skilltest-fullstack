@@ -14,6 +14,11 @@ import MyFooter from '../components/layouts/Footer.vue'
 import Dashboard from '../pages/Dashboard.vue'
 // Todo List
 import TodolistIndex from '../pages/todolist/Index.vue'
+import TodolistCreate from '../pages/todolist/Create.vue'
+
+// Profile
+import ProfileIndex from '../pages/profile/Index.vue'
+import ProfileChanePassword from '../pages/profile/Changepassword.vue'
 
 export const routes = [
 
@@ -56,6 +61,51 @@ export const routes = [
         name: 'todolist',
         components: {
             default: () => TodolistIndex,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
+    },
+    {
+        path: '/dashboard/todo-list/create',
+        name: 'addtodo',
+        components: {
+            default: () => TodolistCreate,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
+    },
+    {
+        path: '/dashboard/myaccount',
+        name: 'profile',
+        components: {
+            default: () => ProfileIndex,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
+    },
+    {
+        path: '/dashboard/myaccount/change-password',
+        name: 'profilechangespassword',
+        components: {
+            default: () => ProfileChanePassword,
             HeaderComponent: () => MyHeader,
             SidebarComponent: () => MySidebar,
             FooterComponent: () => MyFooter,

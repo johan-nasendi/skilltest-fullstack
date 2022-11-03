@@ -158,15 +158,16 @@
         methods: {
         submitFormRegister() {
             axios.post('https://testskill-fullstack.herokuapp.com/api/register',
-            { useCredentails: true },
             this.user)
             .then(response => {
                 if(response.data.status){
-                    this.$router.push({
-                    name: 'login',
-                    params: {
-                        message: response.data.message
-                    }
+                    this.$notify({
+                        type: "success",
+                        title: "Success",
+                        text: response.data.message,
+                    });
+                        this.$router.push({
+                        name: 'login',
                     })
                 }
             })

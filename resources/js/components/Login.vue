@@ -123,12 +123,7 @@ export default {
     methods: {
     async loginForm() {
        await axios.post('https://testskill-fullstack.herokuapp.com/api/login',
-        {
-            useCredentails: true,
-            email: this.email,
-            password: this.password
-          })
-
+        {email: this.email,password: this.password})
           .then(response => {
             localStorage.setItem('user', JSON.stringify(response.data.user))
             localStorage.setItem('token', response.data.token)
