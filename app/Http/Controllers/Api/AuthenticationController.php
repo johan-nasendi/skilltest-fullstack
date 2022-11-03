@@ -179,14 +179,14 @@ class AuthenticationController extends Controller
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
                 return response()->json([
-                	'success' => false,
+                	'status' => false,
                 	'message' => 'Login credentials are invalid.',
                 ], 400);
             }
         } catch (JWTException $e) {
     	return $credentials;
             return response()->json([
-                	'success' => false,
+                	'status' => false,
                 	'message' => 'Could not create token.',
                 ], 500);
         }
@@ -194,10 +194,12 @@ class AuthenticationController extends Controller
  		//Token dibuat, kembali dengan respons sukses dan token jwt
          $user = Auth::user();
         return response()->json([
-            'success' => true,
+            'status' => true,
+            'message' => 'You have successfully logged in!',
+            'token' => $token,
             'user' => array_merge($user->toArray(),
             ['roles' => $user->roles()->get()->toArray()]),
-            'token' => $token,
+
         ]);
 
     }
