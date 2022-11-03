@@ -117,6 +117,23 @@
             if (this.$route.params.message !== undefined) {
             this.message = this.$route.params.message
             }
+
+            if(this.isLoggedIn)
+                {
+                } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
+                    axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
+                    .then(response => {
+                             this.user =  response.data
+                            this.loginType = response.data.roles[0].name
+                    })
+                    .catch(error => {
+                    if (error.isLoggedIn) {
+                            localStorage.clear();
+                        this.$router.push('/login')
+                     }
+                    console.log(error);
+                    })
+                    } else {}
         },
 
         mounted() {
@@ -126,7 +143,7 @@
 
         methods: {
            async  handleUpdateTask() {
-                 await axios.put(`https://testskill-fullstack.herokuapp.com/api/todo/update/${this.$route.params.id}`,this.taskedit)
+                 await axios.put(`https://testskill-fullstack.herokuapp.com/api/todo/update/${this.$route.params.slug}`,this.taskedit)
                     .then((response) => {
                         if(response.data.status) {
                             this.$notify({
@@ -147,7 +164,7 @@
             },
 
            async getDataTask(){
-                   await axios.get('https://testskill-fullstack.herokuapp.com/api/todo/edit/'+this.id).then(response => {
+                   await axios.get('https://testskill-fullstack.herokuapp.com/api/todo/edit/'+this.slug).then(response => {
                         this.taskedit = {
                             title: response.data.title,
                             author: response.data.author ,
@@ -165,22 +182,6 @@
             setUser() {
                 this.user = JSON.parse(localStorage.getItem('user'))
                 this.isLoggedIn = localStorage.getItem('token') != null
-                    if(this.isLoggedIn)
-                        {
-                        } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-                            axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
-                            .then(response => {
-                                    this.user =  response.data
-                                    this.loginType = response.data.roles[0].name
-                            })
-                            .catch(error => {
-                            if (error.isLoggedIn) {
-                                localStorage.clear();
-                                this.$router.push('/login')
-                            }
-                            console.log(error);
-                            })
-                    } else {}
             }
         },
 

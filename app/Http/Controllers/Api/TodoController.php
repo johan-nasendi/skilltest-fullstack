@@ -248,9 +248,9 @@ class TodoController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        $validation = Validator::make($request->only('title','description','author','slug'), [
+        $validation = Validator::make($request->all(), [
             "title"     => "required|string|max:40",
             "description"  => "required|string|max:500",
             "author"      => "required",
@@ -267,7 +267,7 @@ class TodoController extends Controller
             $description = $request->input('description');
             $author = $request->input('author');
 
-            $todo = Todo::find($id);
+            $todo = Todo::find($slug);
             $todo->title = $title;
             $todo->slug  = $slug;
             $todo->author= $author;

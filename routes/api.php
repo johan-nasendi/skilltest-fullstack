@@ -35,7 +35,7 @@ Route::group(['prefix' => 'todo', 'middleware' => 'jwt.verify'], function () {
     Route::post('/store', [TodoController::class, 'store']);
     Route::get('/show/{slug}', [TodoController::class, 'show']);
     Route::get('/edit/{slug}', [TodoController::class, 'edit']);
-    Route::put('/update/{id}', [TodoController::class, 'update']);
+    Route::put('/update/{slug}', [TodoController::class, 'update']);
     Route::delete('/delete/{id}', [TodoController::class, 'destroy']);
 
 });

@@ -115,27 +115,25 @@ export default {
         }
     },
     mounted() {
-    this.setUser()
+        this.setUser()
     },
     methods: {
-        setUser() {
-        this.user = JSON.parse(localStorage.getItem('user'))
-        this.isLoggedIn = localStorage.getItem('token') != null
-
-        if(this.isLoggedIn)
-        {} else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-            axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
-            .then(response => {
-                    this.user = response.data
-                    this.loginType = response.data.roles[0].name
-            })
-            .catch(error => {
-                console.error(error);
-            })
-        } else {
-            return false;
-        }
-
+      async setUser() {
+            this.user = JSON.parse(localStorage.getItem('user'))
+            this.isLoggedIn = localStorage.getItem('token') != null
+            if(this.isLoggedIn)
+            {} else if(this.user = JSON.parse(localStorage.getItem('user'))) {
+              await  axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
+                .then(response => {
+                        this.user = response.data
+                        this.loginType = response.data.roles[0].name
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            } else {
+                return false;
+            }
         },
         logout() {
         localStorage.removeItem('token')

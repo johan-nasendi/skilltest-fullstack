@@ -85,7 +85,7 @@
 
 <script>
     export default {
-        props: ['slug'],
+        props: ['id'],
         name:"ProfileEdit",
             data() {
                 return {
@@ -125,7 +125,7 @@
 
             methods: {
                 handleUpdateAdmin() {
-                this.$axios.put(`https://testskill-fullstack.herokuapp.com/api/profile/update/${this.$route.params.slug}`,
+                this.$axios.put(`https://testskill-fullstack.herokuapp.com/api/profile/update/${this.$route.params.id}`,
                 this.profileEdit).then((response) => {
                     if(response.data.status) {
                         this.$notify({
@@ -146,7 +146,7 @@
                 },
 
                 GetDataProfile(){
-                    axios.get('https://testskill-fullstack.herokuapp.com/api/profile/edit/' +this.slug).then((response) => {
+                    axios.get('https://testskill-fullstack.herokuapp.com/api/profile/edit/' +this.id).then((response) => {
                     this.profileEdit =  {
                         name: response.data.name,
                         email: response.data.email

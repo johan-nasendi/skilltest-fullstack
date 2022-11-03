@@ -91,7 +91,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="d-sm-flex justify-content-between">
                                                                         <div>
-                                                                            <img v-if="user.userimage" :src="'/photos/'+user.userimage" alt="null" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
+                                                                            <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" alt="null" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
                                                                             <img v-else src="/assets/images/users/user-5.jpg" lt="image" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" title="null" />
                                                                         </div>
                                                                         <div class="mt-3 mt-sm-0">
@@ -147,7 +147,7 @@
 <script>
 export default {
   name:'TodoList',
-  props:['slug'],
+  props:['id'],
   data() {
       return {
         isLoggedIn: false,
@@ -163,6 +163,15 @@ export default {
         if (this.$route.params.message !== undefined) {
             this.message = this.$route.params.message
         }
+
+         axios.get('https://testskill-fullstack.herokuapp.com/api/user')
+            .then(response => {
+                this.user = response.data
+                this.loginType = response.data.roles[0].name
+            })
+            .catch(error => {
+                console.log(error)
+            })
     },
      mounted() {
       this.setUser()
@@ -172,15 +181,6 @@ export default {
       async setUser() {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
-
-          await axios.get('https://testskill-fullstack.herokuapp.com/api/user')
-            .then(response => {
-                this.user = response.data
-                this.loginType = response.data.roles[0].name
-            })
-            .catch(error => {
-                console.log(error)
-            })
         },
         async GetdataTodo(){
             axios.get('https://testskill-fullstack.herokuapp.com/api/todo/getall')
