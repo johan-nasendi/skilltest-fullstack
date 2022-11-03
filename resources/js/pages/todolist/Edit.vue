@@ -143,7 +143,7 @@
 
         methods: {
            async  handleUpdateTask() {
-                 await axios.put(`https://testskill-fullstack.herokuapp.com/api/todo/update/${this.$route.params.slug}`,this.taskedit)
+                 await axios.put(`https://testskill-fullstack.herokuapp.com/api/todo/update/${this.$route.params.id}`,this.taskedit)
                     .then((response) => {
                         if(response.data.status) {
                             this.$notify({
@@ -164,7 +164,7 @@
             },
 
            async getDataTask(){
-                   await axios.get('https://testskill-fullstack.herokuapp.com/api/todo/edit/'+this.slug).then(response => {
+                   await axios.get('https://testskill-fullstack.herokuapp.com/api/todo/edit/'+this.id).then(response => {
                         this.taskedit = {
                             title: response.data.title,
                             author: response.data.author ,

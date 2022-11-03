@@ -144,7 +144,7 @@ class TodoController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/todo/show/{slug}",
+     *     path="/api/todo/show/{id}",
      *     tags={"Todo List"},
      *     operationId="show",
      *     @OA\Response(
@@ -155,7 +155,7 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        $todo = Todo::with('user')->where('slug', $id)
+        $todo = Todo::with('user')->where('id', $id)
         ->first();
         return response()->json($todo, 200);
     }
@@ -169,7 +169,7 @@ class TodoController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/todo/edit/{slug}",
+     *     path="/api/todo/edit/{id}",
      *     tags={"Todo List"},
      *     operationId="edit",
      *     @OA\Response(
@@ -180,7 +180,7 @@ class TodoController extends Controller
      */
     public function edit($id)
     {
-        $todo = Todo::where('slug',$id)->first();
+        $todo = Todo::where('id',$id)->first();
         return response()->json($todo, 200);
     }
 
@@ -248,7 +248,7 @@ class TodoController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request, $id)
     {
         $validation = Validator::make($request->all(), [
             "title"     => "required|string|max:40",
@@ -267,7 +267,7 @@ class TodoController extends Controller
             $description = $request->input('description');
             $author = $request->input('author');
 
-            $todo = Todo::find($slug);
+            $todo = Todo::find($id);
             $todo->title = $title;
             $todo->slug  = $slug;
             $todo->author= $author;

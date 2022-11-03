@@ -91,7 +91,7 @@ export const routes = [
         props: true
     },
     {
-        path: '/dashboard/todo-list/:slug/edit',
+        path: '/dashboard/todo-list/:id/edit',
         name: 'todoedit',
         components: {
             default: () => TodolistEdit,
@@ -106,7 +106,7 @@ export const routes = [
         props: true
     },
     {
-        path: '/dashboard/todo-list/:slug/detail',
+        path: '/dashboard/todo-list/:id/detail',
         name: 'tododetail',
         components: {
             default: () => TodolistDetail,

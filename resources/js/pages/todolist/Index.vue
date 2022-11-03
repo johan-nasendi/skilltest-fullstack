@@ -100,12 +100,12 @@
                                                                                     <i class="mdi mdi-calendar-month-outline font-16 mr-1"></i>
                                                                                     {{ new Date(myt.updated_at).toDateString() }}
                                                                                 </li>
-                                                                                    <a href="javascript: void(0);" @click.prevent="getdetailTodo(myt.slug)">
+                                                                                    <a href="javascript: void(0);" @click.prevent="getdetailTodo(myt.id)">
                                                                                     <li class="list-inline-item pr-2">
                                                                                         <i class="mdi mdi-eye-outline font-16 text-info mr-1" title="DETAIL"></i>
                                                                                     </li>
                                                                                 </a>
-                                                                                <a href="javascript: void(0);" @click.prevent="geteditTodo(myt.slug)">
+                                                                                <a href="javascript: void(0);" @click.prevent="geteditTodo(myt.id)">
                                                                                     <li class="list-inline-item pr-2">
                                                                                         <i class="mdi mdi-pencil-outline font-16 text-warning mr-1" title="EDIT"></i>
                                                                                     </li>
@@ -194,16 +194,16 @@ export default {
             });
         },
 
-        geteditTodo(slug){
+        geteditTodo(id){
                 this.$router.push({
                 name: 'todoedit',
-                params: {slug}
+                params: {id}
             })
         },
-        getdetailTodo(slug){
+        getdetailTodo(id){
                 this.$router.push({
                 name: 'tododetail',
-                params: {slug}
+                params: {id}
             })
         },
 
