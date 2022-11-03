@@ -229,19 +229,20 @@ class AuthenticationController extends Controller
      *     )
      * )
      */
+
     public function getUser(Request $request)
     {
         $this->validate($request, [
             'token' => 'required'
         ]);
 
-        $user = JWTAuth::authenticate($request->token);
-
+        $data = JWTAuth::authenticate($request->token);
+        $data = auth()->user();
         return response()->json(
             [
                 'status' => true,
-                'user' => $user,
-                'roles' => $user->roles()->get()->toArray(),
+                'data' => $data,
+                'roles' => $data->roles()->get()->toArray(),
             ]);
     }
 

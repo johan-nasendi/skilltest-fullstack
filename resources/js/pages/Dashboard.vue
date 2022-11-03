@@ -128,17 +128,23 @@ export default {
       this.setUser()
     },
     methods: {
-      async setUser() {
+       setUser() {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
 
-          await axios.get('https://testskill-fullstack.herokuapp.com/api/user',{ useCredentails: true })
+           axios.get('https://testskill-fullstack.herokuapp.com/api/user',{ useCredentails: true })
             .then(response => {
                 this.user = response.data
                 this.loginType = response.data.roles[0].name
             })
             .catch(error => {
-                 console.log(error)
+            if (error.response.status === 401) {
+                localStorage.clear();
+                this.$router.push('/login')
+            }
+           if(error.response.status === 500){
+                    this.serverErros = error.response.message + ' Opsss... Internal Server Error,Try once Again!'
+             }
             })
         },
 
