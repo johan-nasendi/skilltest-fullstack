@@ -66,7 +66,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="row mt-1" data-plugin="dragula" data-containers="[&quot;task-list-one&quot;, &quot;task-list-two&quot;, &quot;task-list-three&quot;]">
+                                        <div class="row mt-1" data-plugin="dragula">
                                             <div class="col">
                                                  <a class="text-dark" data-toggle="collapse" href="#todayTasks" aria-expanded="false" aria-controls="todayTasks">
                                                     <h5 class="mb-0 text-white"><i class="mdi mdi-chevron-down font-18 text-white"></i> Total
@@ -74,7 +74,7 @@
                                                     </h5>
                                                 </a>
 
-                                                <div class="collapse show" id="todayTasks" v-for="(myt, i) in todo" :key="i">
+                                                <div class="collapse show" id="todayTasks" v-for="(myt, i) in todo" :key="i.id">
                                                     <div class="card mt-1 shadow-none">
                                                         <div class="card-body pb-0" id="task-list-one">
                                                             <!-- task -->
@@ -85,13 +85,14 @@
                                                                         <label class="custom-control-label" for="task1">
                                                                            {{myt.title}}
                                                                         </label>
+                                                                        <p class="truncate">{{myt.description}}</p>
                                                                     </div> <!-- end checkbox -->
                                                                 </div> <!-- end col -->
                                                                 <div class="col-lg-6">
                                                                     <div class="d-sm-flex justify-content-between">
                                                                         <div>
-                                                                            <img v-if="user.photo" :src="'/photos/'+user.photo" alt="null" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
-                                                                            <img v-else src="/assets/images/users/user.jpg" lt="image" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" title="null" />
+                                                                            <img v-if="user.userimage" :src="'/photos/'+user.userimage" alt="null" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
+                                                                            <img v-else src="/assets/images/users/user-5.jpg" lt="image" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" title="null" />
                                                                         </div>
                                                                         <div class="mt-3 mt-sm-0">
                                                                             <ul class="list-inline font-13 text-sm-right">
@@ -99,26 +100,22 @@
                                                                                     <i class="mdi mdi-calendar-month-outline font-16 mr-1"></i>
                                                                                     {{ new Date(myt.updated_at).toDateString() }}
                                                                                 </li>
-                                                                                    <a href="javascript: void(0);" @click.prevent="getDetailMyTask(myt.slug)">
+                                                                                    <a href="javascript: void(0);" @click.prevent="getdetailTodo(myt.slug)">
                                                                                     <li class="list-inline-item pr-2">
                                                                                         <i class="mdi mdi-eye-outline font-16 text-info mr-1" title="DETAIL"></i>
                                                                                     </li>
                                                                                 </a>
-                                                                                <a href="javascript: void(0);" @click.prevent="geteditMyTask(myt.id)">
+                                                                                <a href="javascript: void(0);" @click.prevent="geteditTodo(myt.slug)">
                                                                                     <li class="list-inline-item pr-2">
                                                                                         <i class="mdi mdi-pencil-outline font-16 text-warning mr-1" title="EDIT"></i>
                                                                                     </li>
                                                                                 </a>
+                                                                                <a href="javascript: void(0);" @click.prevent="deleteTodo(myt.id)">
+                                                                                    <li class="list-inline-item pr-2">
+                                                                                        <i class="mdi mdi-trash-can font-16 text-danger mr-1" title="Delete"></i>
+                                                                                    </li>
+                                                                                </a>
 
-                                                                                <li class="list-inline-item" v-if="myt.status === 'finished'">
-                                                                                <span class="badge badge-soft-success p-1">Finished</span>
-                                                                                </li>
-                                                                                <li class="list-inline-item" v-if="myt.status === 'ongoing'">
-                                                                                    <span class="badge badge-soft-info p-1">On Progress</span>
-                                                                                </li>
-                                                                                <li class="list-inline-item" v-if="myt.status === 'notdone'">
-                                                                                    <span class="badge badge-soft-danger p-1">No Progress</span>
-                                                                                </li>
                                                                             </ul>
                                                                         </div>
                                                                     </div> <!-- end .d-flex-->
@@ -150,6 +147,7 @@
 <script>
 export default {
   name:'TodoList',
+  props:['slug'],
   data() {
       return {
         isLoggedIn: false,
@@ -163,11 +161,8 @@ export default {
     },
     created() {
         if (this.$route.params.message !== undefined) {
-            this.message = this.$route.params.message}
-
-      axios.defaults.headers.common['Content-Type'] = 'application/json'
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-
+            this.message = this.$route.params.message
+        }
     },
      mounted() {
       this.setUser()
@@ -187,8 +182,7 @@ export default {
                 console.log(error)
             })
         },
-
-        GetdataTodo(){
+        async GetdataTodo(){
             axios.get('https://testskill-fullstack.herokuapp.com/api/todo/getall')
                 .then(response => {
                     this.todo = response.data.todos
@@ -200,6 +194,37 @@ export default {
             });
         },
 
+        geteditTodo(slug){
+                this.$router.push({
+                name: 'todoedit',
+                params: {slug}
+            })
+        },
+        getdetailTodo(slug){
+                this.$router.push({
+                name: 'tododetail',
+                params: {slug}
+            })
+        },
+
+        deleteTodo(id){
+                if(confirm('Are you sure want to delete this todo list?..')){
+                 this.$axios.delete(`https://testskill-fullstack.herokuapp.com/api/todo/delete/${id}`)
+                    .then(response => {
+                       if(response.data.status){
+                         let i = this.task.map(item => item.id).indexOf(id); // find index of your object
+                         this.task.splice(i, 1)
+                         console.log(response.data.message)
+                       }
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+
+            } else {
+                return false
+            }
+        },
     }
 }
 </script>

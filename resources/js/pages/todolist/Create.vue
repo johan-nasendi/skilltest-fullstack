@@ -60,7 +60,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="text-white">Title {{task.author}} </label>
+                                                <label class="text-white">Title </label>
                                                 <input type="hidden"  v-model="task.author" >
                                                 <input type="text"  class="form-control bg-dark text-white" v-model="task.title" placeholder="Enter Title"
                                                 required autocomplete="on" autofocus>
@@ -111,40 +111,45 @@
           }
         },
          created() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-
-            if(this.isLoggedIn)
-            {
-                } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-                    axios.get('https://testskill-fullstack.herokuapp.com/api/user')
-                    .then(response => {
-                            this.user = response.data
-                            this.loginType = response.data.roles[0].name
-                            this.task.author = {
-                                author: response.data.id
-                            }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                } else {
-                    return false;
+            if (this.$route.params.message !== undefined) {
+              this.message = this.$route.params.message
             }
 
+            if(this.isLoggedIn)
+                {
+                    } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
+                        axios.get('https://testskill-fullstack.herokuapp.com/api/user')
+                        .then(response => {
+                                this.user = response.data
+                                this.loginType = response.data.roles[0].name
+                                this.task = {
+                                    author: response.data.id
+                                }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    } else {
+                        return false;
+                }
+
         },
+
          mounted() {
           this.setUser()
         },
+
         methods: {
-            submitFormTask() {
-                axios.post('https://testskill-fullstack.herokuapp.com/api/todo/store',this.task)
+           async submitFormTask() {
+              await  axios.post('https://testskill-fullstack.herokuapp.com/api/todo/store',this.task)
                 .then(response => {
+                    this.$notify({
+                        type: "success",
+                        title: "Success",
+                         text: response.data.message,
+                    });
                     this.$router.push({
-                    name: 'todolist',
-                    params: {
-                        message: response.data.message
-                    }
+                          name: 'todolist',
                     })
                 })
                 .catch(error => {
@@ -159,10 +164,6 @@
               this.user = JSON.parse(localStorage.getItem('user'))
               this.isLoggedIn = localStorage.getItem('token') != null
             },
-
-
-
-
         }
     }
     </script>

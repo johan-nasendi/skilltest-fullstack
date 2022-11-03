@@ -37,10 +37,9 @@ export default {
     this.setUser()
     },
     created() {
-        axios.defaults.headers.common['Content-Type'] = 'application/json'
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-
-
+        if (this.$route.params.message !== undefined) {
+            this.message = this.$route.params.message
+        }
     },
 
     methods: {

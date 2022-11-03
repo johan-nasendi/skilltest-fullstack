@@ -117,11 +117,8 @@ export default {
     },
     created() {
         if (this.$route.params.message !== undefined) {
-            this.message = this.$route.params.message}
-
-      axios.defaults.headers.common['Content-Type'] = 'application/json'
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-
+            this.message = this.$route.params.message
+        }
     },
      mounted() {
       this.setUser()

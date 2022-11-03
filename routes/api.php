@@ -33,8 +33,8 @@ Route::group(['prefix' => 'todo', 'middleware' => 'jwt.verify'], function () {
 
     Route::get('/getall', [TodoController::class, 'index']);
     Route::post('/store', [TodoController::class, 'store']);
-    Route::get('/show/{id}', [TodoController::class, 'show']);
-    Route::get('/edit/{id}', [TodoController::class, 'edit']);
+    Route::get('/show/{slug}', [TodoController::class, 'show']);
+    Route::get('/edit/{slug}', [TodoController::class, 'edit']);
     Route::put('/update/{id}', [TodoController::class, 'update']);
     Route::delete('/delete/{id}', [TodoController::class, 'destroy']);
 
@@ -44,7 +44,7 @@ Route::group(['prefix' => 'profile', 'middleware' => 'jwt.verify'], function () 
     Route::post('/upload-photo/{id}',[ProfileController::class, 'uploadPhoto']);
     Route::post('/change-password',[ProfileController::class, 'changePassword']);
 
-    Route::get('/edit/{id}',[ProfileController::class, 'edit']);
+    Route::get('/edit/{slug}',[ProfileController::class, 'edit']);
     Route::put('/update/{id}',[ProfileController::class, 'update']);
 
 });

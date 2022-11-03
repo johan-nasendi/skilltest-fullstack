@@ -99,10 +99,14 @@ class ProfileController extends Controller
 
     public function uploadPhoto($id,Request $request)
     {
-        $this->validate($request,
-        [
-            'userimage' => 'image|mimes:jpeg,png,jpg|max:2048',
+        $validation = Validator::make($request->all(), [
+            "userimage"      => "required|max:2048",
         ]);
+
+        if ($validation->fails()) :
+            return ResponseHelper::responseValidation($validation->errors());
+        endif;
+
 
         try {
             $user = User::find($id);
@@ -128,7 +132,7 @@ class ProfileController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/profile/edit/{id}",
+     *     path="/api/profile/edit/{slug}",
      *     tags={"Profile"},
      *     operationId="editprofile",
      *     @OA\Response(
@@ -139,7 +143,7 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id',$id)->first();
+        $user = User::where('slug',$id)->first();
         return response()->json($user);
     }
 

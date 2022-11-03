@@ -15,10 +15,14 @@ import Dashboard from '../pages/Dashboard.vue'
 // Todo List
 import TodolistIndex from '../pages/todolist/Index.vue'
 import TodolistCreate from '../pages/todolist/Create.vue'
+import TodolistEdit from '../pages/todolist/Edit.vue'
+import TodolistDetail from '../pages/todolist/Detail.vue'
 
 // Profile
 import ProfileIndex from '../pages/profile/Index.vue'
 import ProfileChanePassword from '../pages/profile/Changepassword.vue'
+import ProfileUpload from '../pages/profile/Uploadphoto.vue'
+import ProfileEdit from '../pages/profile/Edit.vue'
 
 export const routes = [
 
@@ -87,10 +91,70 @@ export const routes = [
         props: true
     },
     {
+        path: '/dashboard/todo-list/:slug/edit',
+        name: 'todoedit',
+        components: {
+            default: () => TodolistEdit,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
+    },
+    {
+        path: '/dashboard/todo-list/:slug/detail',
+        name: 'tododetail',
+        components: {
+            default: () => TodolistDetail,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
+    },
+    {
         path: '/dashboard/myaccount',
         name: 'profile',
         components: {
             default: () => ProfileIndex,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
+    },
+    {
+        path: '/dashboard/myaccount/:slug/upload-photo',
+        name: 'profileupload',
+        components: {
+            default: () => ProfileUpload,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
+    },
+    {
+        path: '/dashboard/myaccount/:slug/edit',
+        name: 'profileedit',
+        components: {
+            default: () => ProfileEdit,
             HeaderComponent: () => MyHeader,
             SidebarComponent: () => MySidebar,
             FooterComponent: () => MyFooter,

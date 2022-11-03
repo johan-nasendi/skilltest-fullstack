@@ -144,7 +144,7 @@ class TodoController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/todo/show/{id}",
+     *     path="/api/todo/show/{slug}",
      *     tags={"Todo List"},
      *     operationId="show",
      *     @OA\Response(
@@ -155,7 +155,7 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        $todo = Todo::with('user')->where('id', $id)
+        $todo = Todo::with('user')->where('slug', $id)
         ->first();
         return response()->json($todo, 200);
     }
@@ -169,7 +169,7 @@ class TodoController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/todo/edit/{id}",
+     *     path="/api/todo/edit/{slug}",
      *     tags={"Todo List"},
      *     operationId="edit",
      *     @OA\Response(
@@ -180,7 +180,7 @@ class TodoController extends Controller
      */
     public function edit($id)
     {
-        $todo = Todo::where('id',$id)->first();
+        $todo = Todo::where('slug',$id)->first();
         return response()->json($todo, 200);
     }
 

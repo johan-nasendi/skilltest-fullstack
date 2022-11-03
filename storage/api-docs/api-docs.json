@@ -190,7 +190,7 @@
                 }
             }
         },
-        "/api/profile/edit/{id}": {
+        "/api/profile/edit/{slug}": {
             "get": {
                 "tags": [
                     "Profile"
@@ -309,7 +309,7 @@
                 }
             }
         },
-        "/api/todo/show/{id}": {
+        "/api/todo/show/{slug}": {
             "get": {
                 "tags": [
                     "Todo List"
@@ -322,7 +322,7 @@
                 }
             }
         },
-        "/api/todo/edit/{id}": {
+        "/api/todo/edit/{slug}": {
             "get": {
                 "tags": [
                     "Todo List"
