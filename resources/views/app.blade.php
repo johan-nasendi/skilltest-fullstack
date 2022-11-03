@@ -76,7 +76,9 @@
         }, 1000);
 
         });
-
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
     </script>
 
 </body>

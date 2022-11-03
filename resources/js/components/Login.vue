@@ -100,7 +100,7 @@ export default {
     name:"Login",
     data() {
       return {
-        error: null,
+        error: '',
         showPassword: false,
         hidePassword: null,
         showLoading: false,
@@ -122,13 +122,8 @@ export default {
     },
     methods: {
     async loginForm() {
-        const headers = {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-
-       await axios.post('/api/login',
+       await axios.post('https://testskill-fullstack.herokuapp.com/api/login',
         {
-            headers: headers,
             useCredentails: true,
             email: this.email,
             password: this.password
@@ -175,8 +170,8 @@ export default {
 
           })
           .catch(error => {
-              if(error.response.status === 500){
-                 this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
+              if(error.response.message === 500){
+                 this.serverErros = error.response.message + ' Opsss... Internal Server Error,Try once Again!'
               }
               this.error = error.response.data.message
           });
