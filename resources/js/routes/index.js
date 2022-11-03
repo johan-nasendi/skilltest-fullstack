@@ -136,7 +136,7 @@ export const routes = [
         props: true
     },
     {
-        path: '/dashboard/myaccount/:slug/upload-photo',
+        path: '/dashboard/myaccount/:id/upload-photo',
         name: 'profileupload',
         components: {
             default: () => ProfileUpload,
@@ -151,7 +151,7 @@ export const routes = [
         props: true
     },
     {
-        path: '/dashboard/myaccount/:slug/edit',
+        path: '/dashboard/myaccount/:id/edit',
         name: 'profileedit',
         components: {
             default: () => ProfileEdit,

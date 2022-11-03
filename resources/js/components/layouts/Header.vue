@@ -11,7 +11,7 @@
                          <li class="dropdown notification-list topbar-dropdown" v-for="role in user.roles" :key="role.id">
 
                              <a v-if="loginType = 'user'" class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                                 <img v-if="user.userimage" :src="'/photos/'+user.userimage" alt="user-image" class="rounded-circle">
+                                 <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" alt="user-image" class="rounded-circle">
                                  <img v-else src="/assets/images/users/user-5.jpg" alt="user-image" class="rounded-circle">
                                  <span class="pro-user-name ml-1">
                                          {{user.name}} <i class="mdi mdi-chevron-down"></i>

@@ -146,7 +146,7 @@
                 },
 
                 GetDataProfile(){
-                    axios.get('https://testskill-fullstack.herokuapp.com/api/profile/edit/' +this.id).then((response) => {
+                    axios.get('https://testskill-fullstack.herokuapp.com/api/profile/edit/' +this.slug).then((response) => {
                     this.profileEdit =  {
                         name: response.data.name,
                         email: response.data.email

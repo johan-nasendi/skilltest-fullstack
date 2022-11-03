@@ -37,17 +37,17 @@
                 <div class="row">
                     <div class="col-lg-4 col-xl-4">
                         <div class="card-box bg-dark bg-pattern text-center">
-                            <img v-if="user.userimage" :src="'/photos/'+user.userimage" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image" />
+                            <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image" />
                             <div v-else>
                                 <img  src="/assets/images/users/user-5.jpg" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image" />
                                 <p class="text-muted"><i class="text-danger">* Upload your Photo !!</i></p>
                             </div>
                             <h4 class="mb-0 text-white"> {{user.name}}  </h4>
                             <p class="text-muted"> {{user.email}}  </p>
-                            <a class="btn btn-dark btn-xs btn-outline-warning mr-2" href="javascript: void(0);" @click.prevent="EditProfile(user.slug)">
+                            <a class="btn btn-dark btn-xs btn-outline-warning mr-2" href="javascript: void(0);" @click.prevent="EditProfile(user.id)">
                                 <i class="mdi mdi-account-edit mr-1"></i>Edit
                             </a>
-                            <a class="btn btn-dark btn-xs btn-outline-success" href="javascript: void(0);" @click.prevent="UploadPhoto(user.slug)">
+                            <a class="btn btn-dark btn-xs btn-outline-success" href="javascript: void(0);" @click.prevent="UploadPhoto(user.id)">
                                 <i class="mdi mdi-file-upload-outline mr-1"></i>Upload Photo
                             </a>
                         </div>
@@ -88,7 +88,7 @@
 
 <script>
 export default {
-    props: ['slug'],
+    props: ['id'],
     name: "Profile",
     data() {
       return {
@@ -132,17 +132,17 @@ export default {
           this.isLoggedIn = localStorage.getItem('token') != null
         },
 
-        EditProfile(slug) {
+        EditProfile(id) {
             this.$router.push({
                 name: 'profileedit',
-                params: {slug}
+                params: {id}
             })
         },
 
-        UploadPhoto(slug) {
+        UploadPhoto(id) {
             this.$router.push({
                 name: 'profileupload',
-                params: {slug}
+                params: {id}
             })
         },
     }

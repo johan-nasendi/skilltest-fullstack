@@ -132,7 +132,7 @@ class ProfileController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/profile/edit/{slug}",
+     *     path="/api/profile/edit/{id}",
      *     tags={"Profile"},
      *     operationId="editprofile",
      *     @OA\Response(
@@ -143,7 +143,7 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('slug',$id)->first();
+        $user = User::where('id',$id)->first();
         return response()->json($user);
     }
 

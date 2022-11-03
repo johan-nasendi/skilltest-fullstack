@@ -44,7 +44,7 @@ Route::group(['prefix' => 'profile', 'middleware' => 'jwt.verify'], function () 
     Route::post('/upload-photo/{id}',[ProfileController::class, 'uploadPhoto']);
     Route::post('/change-password',[ProfileController::class, 'changePassword']);
 
-    Route::get('/edit/{slug}',[ProfileController::class, 'edit']);
+    Route::get('/edit/{id}',[ProfileController::class, 'edit']);
     Route::put('/update/{id}',[ProfileController::class, 'update']);
 
 });
