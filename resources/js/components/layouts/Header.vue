@@ -111,7 +111,7 @@ data() {
      if(this.isLoggedIn)
      {
      } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-         axios.get('api/user',
+         axios.get('https://testskill-fullstack.herokuapp.com/api/user',
          { useCredentails: true }
          )
          .then(response => {

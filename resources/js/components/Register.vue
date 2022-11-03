@@ -157,7 +157,9 @@
         },
         methods: {
         submitFormRegister() {
-            axios.post('https://testskill-fullstack.herokuapp.com/api/register', this.user)
+            axios.post('https://testskill-fullstack.herokuapp.com/api/register',
+            { useCredentails: true },
+            this.user)
             .then(response => {
                 if(response.data.status){
                     this.$router.push({

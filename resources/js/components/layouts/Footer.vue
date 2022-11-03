@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                      {{year}} &copy; BAS theme by <a href="https://www.instagram.com/johan.nasendi/" class="text-info" target="_blank">Johan Nasendi</a>
+                      {{year}} &copy; Skill Test theme by <a href="https://www.instagram.com/johan.nasendi/" class="text-info" target="_blank">Johan Nasendi</a>
                 </div>
                 <div class="col-md-6">
                     <div class="text-md-right footer-links d-none d-sm-block">
@@ -43,7 +43,7 @@ created() {
     if(this.isLoggedIn)
     {
     } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-        axios.get(`/api/user`)
+        axios.get(`https://testskill-fullstack.herokuapp.com/api/user`,{ useCredentails: true })
         .then(response => {
                 this.user = response.data
                 this.loginType = response.data.roles[0].name

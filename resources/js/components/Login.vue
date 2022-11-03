@@ -130,7 +130,7 @@ export default {
           })
 
           .then(response => {
-            localStorage.setItem('user', JSON.parse(response.data.user))
+            localStorage.setItem('user', JSON.stringify(response.data.user))
             localStorage.setItem('token', response.data.token)
 
             let loginType = response.data.user.roles[0].name

@@ -12,7 +12,8 @@ import MyFooter from '../components/layouts/Footer.vue'
 
 // Dashboard student
 import Dashboard from '../pages/Dashboard.vue'
-
+// Todo List
+import TodolistIndex from '../pages/todolist/Index.vue'
 
 export const routes = [
 
@@ -49,6 +50,21 @@ export const routes = [
             requireAuth: true,
             isUser: true
         }
+    },
+    {
+        path: '/dashboard/todo-list',
+        name: 'todolist',
+        components: {
+            default: () => TodolistIndex,
+            HeaderComponent: () => MyHeader,
+            SidebarComponent: () => MySidebar,
+            FooterComponent: () => MyFooter,
+        },
+        meta: {
+            requireAuth: true,
+            isUser: true
+        },
+        props: true
     },
 
 ];

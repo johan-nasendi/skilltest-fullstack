@@ -55,7 +55,7 @@
                                 <div class="col-6">
                                     <div class="text-right">
                                         <h3 class="text-white my-1"><span data-plugin="counterup"> 50 </span></h3>
-                                        <p class="text-muted mb-0 text-truncate"> Daily Report </p>
+                                        <p class="text-muted mb-0 text-truncate"> Todo List </p>
                                     </div>
                                 </div>
                             </div>
@@ -67,13 +67,13 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="avatar-md bg-success rounded">
-                                        <i class="fe-check avatar-title font-22 text-white"></i>
+                                        <i class="fe-users avatar-title font-22 text-white"></i>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="text-right">
                                         <h3 class="text-white my-1"><span data-plugin="counterup">50</span></h3>
-                                        <p class="text-muted mb-0 text-truncate">Approved Report</p>
+                                        <p class="text-muted mb-0 text-truncate">Mebers</p>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                 <div class="col-6">
                                     <div class="text-right">
                                         <h3 class="text-white my-1"><span data-plugin="counterup">50</span></h3>
-                                        <p class="text-muted mb-0 text-truncate">Not yet Approved Report</p>
+                                        <p class="text-muted mb-0 text-truncate">Other Items</p>
                                     </div>
                                 </div>
                             </div>
@@ -132,10 +132,10 @@ export default {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
 
-          await axios.get('/api/user',{ useCredentails: true })
+          await axios.get('https://testskill-fullstack.herokuapp.com/api/user',{ useCredentails: true })
             .then(response => {
-            this.user = response.data
-            this.loginType = response.data.roles[0].name
+                this.user = response.data
+                this.loginType = response.data.roles[0].name
             })
             .catch(error => {
             if (error.response.status === 401) {
@@ -143,7 +143,7 @@ export default {
                 this.$router.push('/login')
             }
            if(error.response.status === 500){
-                    this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
+                    this.serverErros = error.response.message + ' Opsss... Internal Server Error,Try once Again!'
              }
             })
         },

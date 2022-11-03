@@ -11,6 +11,12 @@
                                     <span> <router-link class="text-dark" :to="{name: 'user'}">Dashboards</router-link> </span>
                                 </a>
                             </li>
+                            <li>
+                                <a data-toggle="collapse">
+                                    <vue-feather type="list" stroke-width="2" size="1.2rem"></vue-feather>
+                                    <span> <router-link class="text-dark" :to="{name: 'todolist'}">Todo</router-link> </span>
+                                </a>
+                            </li>
                     </ul>
 
                 </div>
@@ -48,7 +54,7 @@ created() {
     {
 
     } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-        axios.get(`/api/user`, { useCredentails: true })
+        axios.get(`https://testskill-fullstack.herokuapp.com/api/user`, { useCredentails: true })
         .then(response => {
                 this.user = response.data
                 this.loginType = response.data.roles[0].name

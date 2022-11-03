@@ -262,7 +262,10 @@ class AuthenticationController extends Controller
         [
             'roles' => $user->roles()->get()->toArray(),
         ]);
-        return response()->json($data, 200);
+        return response()->json([
+            'status' => true,
+            'data' => $data
+        ],200);
     }
 
 

@@ -12,7 +12,7 @@
     <link href=" {{ mix('css/app.css') }}" rel="stylesheet">
 
    <!-- Favicon -->
-   <link rel="shortcut icon" href="{{asset('/assets/images/favicon.png')}}">
+   <link rel="shortcut icon" href="{{asset('/assets/images/favicon.ico')}}">
 
     <!-- Plugins css -->
     <link href="{{asset('/assets/libs/mohithg-switchery/switchery.min.css')}}" rel="stylesheet" type="text/css" />
