@@ -25,14 +25,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthenticationController::class,'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
+
 Route::get('/user',[AuthenticationController::class, 'getUser'])->middleware('jwt.verify');
 Route::get('logout', [AuthenticationController::class, 'logout'])->middleware('jwt.verify');
-
-Route::post('/profile/upload-photo/{id}',[ProfileController::class, 'uploadPhoto'])->middleware('jwt.verify');
-Route::post('/profile/change-password',[ProfileController::class, 'changePassword'])->middleware('jwt.verify');
-
-Route::get('/profile/edit/{id}',[ProfileController::class, 'edit'])->middleware('jwt.verify');
-Route::put('/profile/update/{id}',[ProfileController::class, 'update'])->middleware('jwt.verify');
 
 Route::group(['prefix' => 'todo', 'middleware' => 'jwt.verify'], function () {
 
@@ -43,6 +38,13 @@ Route::group(['prefix' => 'todo', 'middleware' => 'jwt.verify'], function () {
     Route::put('/update/{id}', [TodoController::class, 'update']);
     Route::delete('/delete/{id}', [TodoController::class, 'destroy']);
 
+});
+Route::group(['prefix' => 'profile', 'middleware' => 'jwt.verify'], function () {
 
+    Route::post('/upload-photo/{id}',[ProfileController::class, 'uploadPhoto']);
+    Route::post('/change-password',[ProfileController::class, 'changePassword']);
+
+    Route::get('/edit/{id}',[ProfileController::class, 'edit']);
+    Route::put('/update/{id}',[ProfileController::class, 'update']);
 
 });
