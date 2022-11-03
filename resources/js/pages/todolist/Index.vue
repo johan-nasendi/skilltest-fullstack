@@ -69,13 +69,7 @@ export default {
                 this.loginType = response.data.roles[0].name
             })
             .catch(error => {
-            if (error.response.status === 401) {
-                localStorage.clear();
-                this.$router.push('/login')
-            }
-           if(error.response.status === 500){
-                    this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
-             }
+                console.log(error)
             })
         },
 
@@ -87,9 +81,7 @@ export default {
                 console.error(error);
                 this.todo = []
             }).catch(error => {
-                if(error.response.status === 500){
-                    this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
-                }
+                console.log(error)
             });
         },
 

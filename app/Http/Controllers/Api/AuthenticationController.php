@@ -135,32 +135,6 @@ class AuthenticationController extends Controller
      * )
      */
 
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->validate([
-    //         'email' => ['required', 'email'],
-    //         'password' => ['required'],
-    //     ]);
-
-    //     if (Auth::attempt($credentials)) {
-    //         $status = 200;
-    //         $user = Auth::user();
-    //         $response = [
-    //                 'status' => true,
-    //                 'message' => 'You have successfully logged in!',
-    //                 'user' => array_merge($user->toArray(),
-    //                 ['roles' => $user->roles()->get()->toArray()]),
-    //                 'token' => JWTAuth::fromUser($user),
-
-    //     ];
-    //     }  else {
-    //         $status = 422;
-    //         $response = ['error' => 'The email or password is incorrect.'];
-    //     }
-
-    //     return response()->json($response, $status);
-    // }
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -255,17 +229,20 @@ class AuthenticationController extends Controller
      *     )
      * )
      */
-    public function getUser()
+    public function getUser(Request $request)
     {
-        $user = auth()->user();
-        $data = array_merge($user->toArray(),
-        [
-            'roles' => $user->roles()->get()->toArray(),
+        $this->validate($request, [
+            'token' => 'required'
         ]);
-        return response()->json([
-            'status' => true,
-            'data' => $data
-        ],200);
+
+        $user = JWTAuth::authenticate($request->token);
+
+        return response()->json(
+            [
+                'status' => true,
+                'user' => $user,
+                'roles' => $user->roles()->get()->toArray(),
+            ]);
     }
 
 

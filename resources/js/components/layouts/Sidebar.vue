@@ -60,16 +60,7 @@ created() {
                 this.loginType = response.data.roles[0].name
         })
         .catch(error => {
-        if (error.response.status === 401) {
-            localStorage.clear();
-            this.$router.push({
-                name: 'login',
-                params: {
-                    message: response.data.message
-                }
-            })
-        }
-        console.error(error);
+            console.error(error);
         })
     } else {
         return false;

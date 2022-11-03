@@ -49,11 +49,7 @@ created() {
                 this.loginType = response.data.roles[0].name
         })
         .catch(error => {
-        if (error.response.status === 401) {
-            localStorage.clear();
-            this.$router.push('/login')
-        }
-        console.error(error);
+            console.error(error);
         })
     } else {
         console.log("Welcome")
