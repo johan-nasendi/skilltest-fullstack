@@ -17,7 +17,7 @@
             }
             },
             mounted() {
-            this.setUser()
+                this.setUser()
             },
             methods: {
             setUser() {

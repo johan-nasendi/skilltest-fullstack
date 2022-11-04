@@ -27,6 +27,7 @@ Route::post('/register', [AuthenticationController::class,'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
 
 Route::get('/user',[AuthenticationController::class, 'getUser'])->middleware('jwt.verify');
+Route::get('/user/all',[AuthenticationController::class, 'index'])->middleware('jwt.verify');
 Route::get('logout', [AuthenticationController::class, 'logout'])->middleware('jwt.verify');
 
 Route::group(['prefix' => 'todo', 'middleware' => 'jwt.verify'], function () {

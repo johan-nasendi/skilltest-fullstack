@@ -5,6 +5,19 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/user/all": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "Userall",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
@@ -190,7 +203,7 @@
                 }
             }
         },
-        "/api/profile/edit/{slug}": {
+        "/api/profile/edit/{id}": {
             "get": {
                 "tags": [
                     "Profile"
@@ -309,7 +322,7 @@
                 }
             }
         },
-        "/api/todo/show/{slug}": {
+        "/api/todo/show/{id}": {
             "get": {
                 "tags": [
                     "Todo List"
@@ -322,7 +335,7 @@
                 }
             }
         },
-        "/api/todo/edit/{slug}": {
+        "/api/todo/edit/{id}": {
             "get": {
                 "tags": [
                     "Todo List"

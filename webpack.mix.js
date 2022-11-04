@@ -8,6 +8,7 @@ module.exports = {
     devServer: {
         hot: true,
     },
+
 };
 
 mix.js('resources/js/app.js', 'public/js')

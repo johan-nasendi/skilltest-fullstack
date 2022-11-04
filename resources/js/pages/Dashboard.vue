@@ -129,7 +129,7 @@ export default {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
 
-          axios.get(`https://testskill-fullstack.herokuapp.com/api/user`,)
+          axios.get('https://testskill-fullstack.herokuapp.com/api/user',)
             .then(response => {
                 this.user = response.data
                 this.loginType = response.data.roles[0].name
@@ -142,19 +142,6 @@ export default {
 
             })
         },
-
-        getDataComplateDocs(){
-            axios.get('/api/user/documents')
-            .then(response => {
-                this.warningDocs = response.data.documents
-            }).catch(error => {
-                if(error.response.status === 500){
-                    this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
-                }
-                this.warningDocs = []
-            })
-
-        }
     }
 }
 </script>
