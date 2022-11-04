@@ -38,11 +38,11 @@
                                         <!-- assignee -->
                                         <p class="mt-2 mb-1 text-muted">Author</p>
                                         <div class="media" >
-                                            <img v-if="task.photo" :src="'/photos/'+task.photo" alt="" class="rounded-circle mr-2" height="24" />
+                                            <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" alt="" class="rounded-circle mr-2" height="24" />
                                             <img v-else src="/assets/images/users/user-5.jpg" alt="Arya S" class="rounded-circle mr-2" height="24">
                                             <div class="media-body">
                                                 <h5 class="mt-1 font-size-14 text-white">
-                                                    {{task.name}}
+                                                    {{user.name}}
                                                 </h5>
                                             </div>
                                         </div>
@@ -105,30 +105,19 @@
                 title: '',
                 description: '',
                 created_at:'',
-                photo:'',
-                name:'',
-
             },
+            user:{}
           }
         },
         created() {
             if (this.$route.params.message !== undefined) {
               this.message = this.$route.params.message
             }
-        },
-        mounted() {
-          this.setUser()
-          this.getDataTasks()
-        },
-        methods: {
-          async setUser() {
-              this.user = JSON.parse(localStorage.getItem('user'))
-              this.isLoggedIn = localStorage.getItem('token') != null
 
-              if(this.isLoggedIn)
+            if(this.isLoggedIn)
               {
                 } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-                  await  axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
+                  axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
                     .then(response => {
                             this.user = response.data
                             this.loginType = response.data.roles[0].name
@@ -143,22 +132,28 @@
                 } else {
                     return false;
                 }
-
+        },
+        mounted() {
+          this.setUser()
+          this.getDataTasks()
+        },
+        methods: {
+          async setUser() {
+              this.user = JSON.parse(localStorage.getItem('user'))
+              this.isLoggedIn = localStorage.getItem('token') != null
             },
 
-         getDataTasks() {
-                axios.get(`https://testskill-fullstack.herokuapp.com/api/todo/show/${this.$route.params.id}`)
+        async getDataTasks() {
+              await  axios.get(`https://testskill-fullstack.herokuapp.com/api/todo/show/${this.$route.params.id}`)
                 .then(response => {
                 this.task = {
                     title: response.data.title,
                     description: response.data.description,
                     created_at: response.data.created_at,
-                    name: response.data.user.name,
-                    photo: response.data.user.photo,
                 }
             })
             .catch(function (error) {
-                this.task = []
+               console.log(error)
             });
 
             },

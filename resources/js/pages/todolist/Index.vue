@@ -182,16 +182,13 @@ export default {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
         },
-        async GetdataTodo(){
+         GetdataTodo(){
             axios.get('https://testskill-fullstack.herokuapp.com/api/todo/getall')
                 .then(response => {
                     this.todo = response.data.todos
             }).catch(error => {
                 console.error(error);
-                this.todo = []
-            }).catch(error => {
-                console.log(error)
-            });
+            })
         },
 
         geteditTodo(id){

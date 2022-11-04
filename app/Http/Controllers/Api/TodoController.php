@@ -155,8 +155,7 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        $todo = Todo::with('user')->where('id', $id)
-        ->first();
+        $todo = Todo::where('id', $id)->first();
         return response()->json($todo, 200);
     }
 
