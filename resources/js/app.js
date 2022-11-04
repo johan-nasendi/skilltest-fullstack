@@ -39,11 +39,11 @@ router.beforeEach((to, from, next) => {
             console.log(roles[0]);
             if (to.matched.some(record => record.meta.isUser)) {
                 if (roles.includes('user')) next()
-                else if (roles[0] === 'admin') {
+                else if (roles[0] = 'admin') {
                     next({
                         name: 'admin'
                     })
-                } else if (roles[0] === 'mentor') {
+                } else if (roles[0] = 'mentor') {
                     next({
                         name: 'mentor'
                     })
@@ -52,11 +52,11 @@ router.beforeEach((to, from, next) => {
                 })
             } else if (to.matched.some(record => record.meta.isAdmin)) {
                 if (roles.includes('admin')) next()
-                else if (roles[0] === 'mentor') {
+                else if (roles[0] = 'mentor') {
                     next({
                         name: 'mentor'
                     })
-                } else if (roles[0] === 'user') {
+                } else if (roles[0] = 'user') {
                     next({
                         name: 'user'
                     })
@@ -66,11 +66,11 @@ router.beforeEach((to, from, next) => {
 
             } else if (to.matched.some(record => record.meta.isMentor)) {
                 if (roles.includes('mentor')) next()
-                else if (roles[0] === 'user') {
+                else if (roles[0] = 'user') {
                     next({
                         name: 'user'
                     })
-                } else if (roles[0] === 'admin') {
+                } else if (roles[0] = 'admin') {
                     next({
                         name: 'admin'
                     })
