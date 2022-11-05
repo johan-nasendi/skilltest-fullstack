@@ -114,24 +114,7 @@
               this.message = this.$route.params.message
             }
 
-            if(this.isLoggedIn)
-              {
-                } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-                  axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
-                    .then(response => {
-                            this.user = response.data
-                            this.loginType = response.data.roles[0].name
-                    })
-                    .catch(error => {
-                    if (error.isLoggedIn) {
-                        localStorage.clear();
-                        this.$router.push('/login')
-                    }
-                    console.log(error);
-                    })
-                } else {
-                    return false;
-                }
+
         },
         mounted() {
           this.setUser()
@@ -141,9 +124,13 @@
           async setUser() {
               this.user = JSON.parse(localStorage.getItem('user'))
               this.isLoggedIn = localStorage.getItem('token') != null
+
+              if(this.isLoggedIn === false ){
+                 this.$router.push('/')
+                 }
             },
 
-        async getDataTasks() {
+            async getDataTasks() {
               await  axios.get(`https://testskill-fullstack.herokuapp.com/api/todo/show/${this.$route.params.id}`)
                 .then(response => {
                 this.task = {
@@ -153,7 +140,11 @@
                 }
             })
             .catch(function (error) {
-               console.log(error)
+                if(error.response.status === 500){
+                        this.serverErros = error.response.status + ' Opsss...Server Error,Try once Again!'
+                }
+                 this.task = []
+                 console.log(error)
             });
 
             },

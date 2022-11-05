@@ -91,7 +91,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="d-sm-flex justify-content-between">
                                                                         <div>
-                                                                            <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" alt="null" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
+                                                                            <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" :alt="user.name" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
                                                                             <img v-else src="/assets/images/users/user-5.jpg" lt="image" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" title="null" />
                                                                         </div>
                                                                         <div class="mt-3 mt-sm-0">
@@ -164,14 +164,6 @@ export default {
             this.message = this.$route.params.message
         }
 
-         axios.get('https://testskill-fullstack.herokuapp.com/api/user')
-            .then(response => {
-                this.user = response.data
-                this.loginType = response.data.roles[0].name
-            })
-            .catch(error => {
-                console.log(error)
-            })
     },
      mounted() {
       this.setUser()
@@ -181,14 +173,22 @@ export default {
       async setUser() {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
+          if(this.isLoggedIn === false ){
+                this.$router.push('/')
+            }
         },
-         GetdataTodo(){
+       async GetdataTodo(){
             axios.get('https://testskill-fullstack.herokuapp.com/api/todo/getall')
                 .then(response => {
                     this.todo = response.data.todos
             }).catch(error => {
-                console.error(error);
+                if(error.response.status === 500){
+                    this.serverErros = error.response.message + ' Opsss... Internal Server Error,Try once Again!'
+                }
+                this.serverErros = error.response.message
+                console.log(error);
             })
+
         },
 
         geteditTodo(id){
@@ -209,13 +209,17 @@ export default {
                  this.$axios.delete(`https://testskill-fullstack.herokuapp.com/api/todo/delete/${id}`)
                     .then(response => {
                        if(response.data.status){
-                         let i = this.task.map(item => item.id).indexOf(id); // find index of your object
-                         this.task.splice(i, 1)
-                         console.log(response.data.message)
+                         let i = this.todo.map(item => item.id).indexOf(id); // find index of your object
+                         this.todo.splice(i, 1)
+                         this.$notify({
+                                type: "success",
+                                title: "Success",
+                                text: response.data.message,
+                         });
                        }
                     })
                     .catch(function (error) {
-                        console.error(error);
+                        console.log(error);
                     });
 
             } else {

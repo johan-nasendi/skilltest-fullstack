@@ -40,16 +40,7 @@ export default {
         if (this.$route.params.message !== undefined) {
             this.message = this.$route.params.message
         }
-    },
 
-    methods: {
-    setUser() {
-        this.user = JSON.parse(localStorage.getItem('user'))
-        this.isLoggedIn = localStorage.getItem('token') != null
-
-        if(this.isLoggedIn)
-            {
-            } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
                 axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
                 .then(response => {
                         this.user = response.data
@@ -58,9 +49,12 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
-            } else {
-                return false;
-        }
+    },
+
+    methods: {
+        async setUser() {
+            this.user = JSON.parse(localStorage.getItem('user'))
+            this.isLoggedIn = localStorage.getItem('token') != null
         }
     }
 }

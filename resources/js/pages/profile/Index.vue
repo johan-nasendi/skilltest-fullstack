@@ -104,32 +104,18 @@ export default {
             this.message = this.$route.params.message
          }
 
-         if(this.isLoggedIn){
-            } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-                axios.get('https://testskill-fullstack.herokuapp.com/api/user')
-                .then(response => {
-                        this.user = response.data
-                        this.loginType = response.data.roles[0].name
-                }).catch(error => {
-                if (error.isLoggedIn) {
-                    localStorage.clear();
-                    this.$router.push('/login')
-                }
-                if(error.response.status === 500){
-                        this.serverErros = error.response.status + ' Opsss... Internal Server Error,Try once Again!'
-                }
-                })
-            } else {
-                return false;
-            }
     },
      mounted() {
       this.setUser()
     },
     methods: {
-       setUser() {
+        async  setUser() {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
+
+          if(this.isLoggedIn === false ){
+                 this.$router.push('/')
+            }
         },
 
         EditProfile(id) {

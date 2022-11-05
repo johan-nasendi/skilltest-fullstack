@@ -118,30 +118,20 @@ export default {
          this.setUser()
     },
     created() {
-        if(this.isLoggedIn)
-        {
-        } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-            axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
-            .then(response => {
-                    this.user = response.data
-                    this.loginType = response.data.roles[0].name
-            })
-            .catch(error => {
-            if (error.isLoggedIn) {
-                localStorage.clear();
-                this.$router.push('/login')
-            }
-            console.log(error);
-            })
-        } else {
-            //
-    }
+        if (this.$route.params.message !== undefined) {
+            this.message = this.$route.params.message
+         }
     },
 
     methods: {
-        setUser() {
+      async  setUser() {
             this.user = JSON.parse(localStorage.getItem('user'))
             this.isLoggedIn = localStorage.getItem('token') != null
+
+            if(this.isLoggedIn === false ){
+                this.$router.push('/')
+            }
+
         },
         upload(e) {
                 let files = e.target.files[0]

@@ -115,24 +115,6 @@
               this.message = this.$route.params.message
             }
 
-            if(this.isLoggedIn)
-                {
-                    } else if(this.user = JSON.parse(localStorage.getItem('user'))) {
-                        axios.get('https://testskill-fullstack.herokuapp.com/api/user')
-                        .then(response => {
-                                this.user = response.data
-                                this.loginType = response.data.roles[0].name
-                                this.task = {
-                                    author: response.data.id
-                                }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                    } else {
-                        return false;
-                }
-
         },
 
          mounted() {
@@ -160,9 +142,29 @@
                 });
             },
 
-          setUser() {
+            async setUser() {
               this.user = JSON.parse(localStorage.getItem('user'))
               this.isLoggedIn = localStorage.getItem('token') != null
+
+            await axios.get('https://testskill-fullstack.herokuapp.com/api/user')
+                .then(response => {
+                    this.user = response.data
+                    this.loginType = response.data.roles[0].name
+                    this.task = {
+                        author: response.data.id
+                    }
+                })
+                .catch(error => {
+                    if(error.response.status === 401 || error.response.status === 419)
+                    {
+                        localStorage.clear();
+                        this.$router.push('/')
+                    }
+                    if(this.isLoggedIn === false ){
+                        this.$router.push('/')
+                     }
+                   console.log(error);
+                })
             },
         }
     }
