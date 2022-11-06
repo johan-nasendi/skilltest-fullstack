@@ -12,7 +12,7 @@ const app = createApp(App).use()
 app.config.globalProperties.$axios = axios;
 app.config.productionTip = true
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 
