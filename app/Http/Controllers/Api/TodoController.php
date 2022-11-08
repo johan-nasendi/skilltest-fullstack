@@ -155,8 +155,14 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        $todo = Todo::with('user')->where('id', $id)->first();
-        return response()->json($todo, 200);
+        $user = auth()->user();
+        $data = array_merge($user->toArray(),
+        [
+            'todos' => Todo::where('id',$id)
+            ->first()
+        ]);
+        return response()->json($data, 200);
+
     }
 
     /**
