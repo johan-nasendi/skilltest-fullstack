@@ -38,11 +38,11 @@
                                         <!-- assignee -->
                                         <p class="mt-2 mb-1 text-muted">Author</p>
                                         <div class="media" >
-                                            <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" alt="" class="rounded-circle mr-2" height="24" />
+                                            <img v-if="task.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+task.userimage" :alt="task.name" class="rounded-circle mr-2" height="24" />
                                             <img v-else src="/assets/images/users/user-5.jpg" alt="Arya S" class="rounded-circle mr-2" height="24">
                                             <div class="media-body">
                                                 <h5 class="mt-1 font-size-14 text-white">
-                                                    {{user.name}}
+                                                    {{task.name}}
                                                 </h5>
                                             </div>
                                         </div>
@@ -105,6 +105,8 @@
                 title: '',
                 description: '',
                 created_at:'',
+                name: '',
+                userimage:'',
             },
             user:{}
           }
@@ -137,6 +139,8 @@
                     title: response.data.title,
                     description: response.data.description,
                     created_at: response.data.created_at,
+                    name: response.data.user.name,
+                    userimage: response.data.user.userimage,
                 }
             })
             .catch(function (error) {

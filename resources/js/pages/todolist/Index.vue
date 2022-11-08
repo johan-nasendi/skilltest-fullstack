@@ -70,11 +70,11 @@
                                             <div class="col">
                                                  <a class="text-dark" data-toggle="collapse" href="#todayTasks" aria-expanded="false" aria-controls="todayTasks">
                                                     <h5 class="mb-0 text-white"><i class="mdi mdi-chevron-down font-18 text-white"></i> Total
-                                                        <span class="text-white font-14">({{todo.length}})</span>
+                                                        <span class="text-white font-14">({{todo.todos.length}})</span>
                                                     </h5>
                                                 </a>
 
-                                                <div class="collapse show" id="todayTasks" v-for="(myt, i) in todo" :key="i.id">
+                                                <div class="collapse show" id="todayTasks" v-for="(myt, i) in todo.todos" :key="i.id">
                                                     <div class="card mt-1 shadow-none">
                                                         <div class="card-body pb-0" id="task-list-one">
                                                             <!-- task -->
@@ -91,7 +91,7 @@
                                                                 <div class="col-lg-6">
                                                                     <div class="d-sm-flex justify-content-between">
                                                                         <div>
-                                                                            <img v-if="user.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+user.userimage" :alt="user.name" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
+                                                                            <img v-if="todo.userimage" :src="'https://testskill-fullstack.herokuapp.com/photos/'+todo.userimage" :alt="todo.name" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" />
                                                                             <img v-else src="/assets/images/users/user-5.jpg" lt="image" class="avatar-xs rounded-circle" data-toggle="tooltip" data-placement="bottom" title="null" />
                                                                         </div>
                                                                         <div class="mt-3 mt-sm-0">
@@ -180,7 +180,7 @@ export default {
        async GetdataTodo(){
             axios.get('https://testskill-fullstack.herokuapp.com/api/todo/getall')
                 .then(response => {
-                    this.todo = response.data.todos
+                    this.todo = response.data
             }).catch(error => {
                 if(error.response.status === 500){
                     this.serverErros = error.response.message + ' Opsss... Internal Server Error,Try once Again!'

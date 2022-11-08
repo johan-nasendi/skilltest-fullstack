@@ -166,7 +166,6 @@
           async  setUser() {
                 this.user = JSON.parse(localStorage.getItem('user'))
                 this.isLoggedIn = localStorage.getItem('token') != null
-
                 if(this.isLoggedIn === false ){
                  this.$router.push('/')
                 }
