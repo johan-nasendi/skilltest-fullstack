@@ -128,6 +128,11 @@
               this.isLoggedIn = localStorage.getItem('token') != null
 
               if(this.isLoggedIn === false ){
+                this.$notify({
+                    type: "error",
+                    title: "Authorization",
+                    text: "Please Log In!",
+                });
                  this.$router.push('/')
                  }
             },
@@ -136,14 +141,25 @@
               await  axios.get(`https://testskill-fullstack.herokuapp.com/api/todo/show/${this.$route.params.id}`)
                 .then(response => {
                 this.task = {
-                    title: response.data.title,
-                    description: response.data.description,
-                    created_at: response.data.created_at,
-                    name: response.data.user.name,
-                    userimage: response.data.user.userimage,
+                    title: response.data.todos.title,
+                    description: response.data.todos.description,
+                    created_at: response.data.todos.created_at,
+                    name: response.data.name,
+                    userimage: response.data.userimage,
                 }
             })
             .catch(function (error) {
+                if(error.response.status === 401 || error.response.status === 419)
+                {
+                    localStorage.clear();
+                    this.$notify({
+                        type: "error",
+                        title: "Authorization Token is Expired",
+                        text: error.response,
+                    });
+                    this.$router.push('/')
+                }
+
                 if(error.response.status === 500){
                         this.serverErros = error.response.status + ' Opsss...Server Error,Try once Again!'
                 }

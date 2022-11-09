@@ -54,24 +54,30 @@
                                                 <div class="form-group">
                                                     <label class="text-white">Old Password</label>
                                                     <div class="input-group input-group-merge">
-                                                        <input id="password" type="password" class="form-control bg-dark text-white" placeholder="Old Password"  />
-                                                        <div class="input-group-append" data-password="false">
-                                                            <div class="input-group-text">
-                                                            <span class="password-eye"></span>
+                                                        <input v-if="showPasswordOld" type="text"  class="form-control bg-dark text-white"
+                                                        placeholder="Enter your password"  v-model="changePassd.current_passsowrd" />
+                                                        <input v-else type="password"  class="form-control bg-dark text-white"
+                                                        required autocomplete="on" autofocus placeholder="Enter your password" v-model="changePassd.current_passsowrd">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text bg-dark" @click="toggleShowOld">
+                                                                <span class="fas text-white" :class="{ 'fa-eye-slash': showPasswordOld, 'fa-eye': !showPasswordOld }"></span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <small class="text-muted">If you forget your old password, please contact the admin </small>
+                                                    <small class="text-white">If you forget your old password, please contact the admin </small>
                                                 </div>
                                              </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="text-white">New  Password</label>
                                                     <div class="input-group input-group-merge">
-                                                        <input id="password" type="password" class="form-control bg-dark text-white" placeholder="New Password"  />
-                                                            <div class="input-group-append" data-password="false">
-                                                                <div class="input-group-text">
-                                                                    <span class="password-eye"></span>
+                                                        <input v-if="showPasswordNew" type="text"  class="form-control bg-dark text-white"
+                                                        placeholder="Enter new password"  v-model="changePassd.password" />
+                                                        <input v-else type="password"  class="form-control bg-dark text-white"
+                                                        required autocomplete="on" autofocus placeholder="Enter new password" v-model="changePassd.password">
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text bg-dark" @click="toggleShowNew">
+                                                                    <span class="fas text-white" :class="{ 'fa-eye-slash': showPasswordNew, 'fa-eye': !showPasswordNew }"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -81,22 +87,25 @@
                                                 <div class="form-group">
                                                     <label class="text-white">Confirm New  Password</label>
                                                     <div class="input-group input-group-merge">
-                                                        <input id="password" type="password" class="form-control bg-dark text-white" placeholder="Confirm New Password"  />
-                                                            <div class="input-group-append" data-password="false">
-                                                                <div class="input-group-text">
-                                                                    <span class="password-eye"></span>
+                                                        <input v-if="showPasswordConf" type="text"  class="form-control bg-dark text-white"
+                                                        placeholder="Enter new password"  v-model="changePassd.password_confirmation" />
+                                                        <input v-else type="password"  class="form-control bg-dark text-white"
+                                                        required autocomplete="on" autofocus placeholder="Enter new password" v-model="changePassd.password_confirmation">
+                                                        <div class="input-group-append">
+                                                                <div class="input-group-text bg-dark" @click="toggleShowConf">
+                                                                    <span class="fas text-white" :class="{ 'fa-eye-slash': showPasswordConf, 'fa-eye': !showPasswordConf }"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                  </div>
                                             </div>
                                         </div>
-                                        <div class="text-rigth">
-                                            <a href="#" class="btn btn-outline-info waves-effect waves-dark mt-2" >
-                                                <i class="mdi mdi-content-save"></i> save
-                                            </a>
-                                        </div>
                                 </div> <!-- end row -->
+                                <div class="form-group mb-0 text-center">
+                                    <button class="btn btn-outline-success btn-block" type="submit">
+                                        <i class="mdi mdi-content-save"></i> Reset
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -172,7 +181,12 @@ export default {
                 this.isLoggedIn = localStorage.getItem('token') != null
 
                 if(this.isLoggedIn === false ){
-                        this.$router.push('/')
+                    this.$notify({
+                        type: "error",
+                        title: "Authorization",
+                        text: "Please Log In!",
+                    });
+                    this.$router.push('/')
                 }
             },
 

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Helpers\ResponseHelper;
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
@@ -249,6 +251,72 @@ class AuthenticationController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to log out'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @OA\Post(
+     *     path="/api/reset-password",
+     *     tags={"Authentication"},
+     *     operationId="forgotpassd",
+     *     @OA\Parameter(
+     *          name="email",
+     *          description="Email",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="password",
+     *          description="Password",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="password_confirmation",
+     *          description="password_confirmation",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="successful operation"
+     *     )
+     * )
+     */
+    public function reset_password(Request $request)
+    {
+        $validator = Validator::make($request->only('email','password','password_confirmation'), [
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|confirmed|min:8',
+        ]);
+        if ($validator->fails()) {
+            return ResponseHelper::responseValidation($validator->errors());
+        }
+
+        try {
+
+            $user =  User::where('id');
+            $user->email  = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->update();
+            $user->attachRole($request->role_id);
+
+            return ResponseHelper::responseSuccess('Your password has been successfully reset, Please login');
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to reset'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

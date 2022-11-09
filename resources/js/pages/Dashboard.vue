@@ -130,6 +130,11 @@ export default {
           this.isLoggedIn = localStorage.getItem('token') != null
 
           if(this.isLoggedIn === false ){
+            this.$notify({
+                type: "error",
+                title: "Authorization",
+                text: "Please Log In!",
+            });
             this.$router.push('/')
           }
         },

@@ -24,7 +24,7 @@
                 this.user = JSON.parse(localStorage.getItem('user'))
                 this.isLoggedIn = localStorage.getItem('token') != null
 
-                await axios.get(`https://testskill-fullstack.herokuapp.com/api/user`)
+                await axios.get('https://testskill-fullstack.herokuapp.com/api/user')
                     .then(response => {
                             this.user = response.data
                             this.loginType = response.data.roles[0].name
@@ -33,6 +33,11 @@
                         if(error.response.status === 401 || error.response.status === 419)
                         {
                             localStorage.clear();
+                            this.$notify({
+                                type: "error",
+                                title: "Authorization Token is Expired",
+                                text: error.response,
+                            });
                             this.$router.push('/')
                         }
                         console.log(error);

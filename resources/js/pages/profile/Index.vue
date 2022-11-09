@@ -113,6 +113,15 @@ export default {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
 
+          if(this.isLoggedIn === false ){
+                this.$notify({
+                    type: "error",
+                    title: "Authorization",
+                    text: "Please Log In!",
+                });
+                 this.$router.push('/')
+            }
+
           await axios.get('https://testskill-fullstack.herokuapp.com/api/user')
             .then(response => {
                 this.user = response.data
@@ -122,14 +131,15 @@ export default {
                 if(error.response.status === 401 || error.response.status === 419)
                 {
                     localStorage.clear();
+                    this.$notify({
+                        type: "error",
+                        title: "Authorization Token is Expired",
+                        text: error.response,
+                    });
                     this.$router.push('/')
                 }
                 console.log(error)
             })
-
-          if(this.isLoggedIn === false ){
-                 this.$router.push('/')
-            }
         },
 
         EditProfile(id) {

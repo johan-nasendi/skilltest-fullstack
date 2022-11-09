@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthenticationController::class,'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
+Route::put('reset-password', [AuthenticationController::class, 'reset_password']);
 
 Route::get('/user',[AuthenticationController::class, 'getUser'])->middleware('jwt.verify');
 Route::get('/user/all',[AuthenticationController::class, 'index'])->middleware('jwt.verify');

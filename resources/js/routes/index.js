@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 import Login from '../components/Login.vue'
-
+import ForgotPassword from '../components/ForgotPassword.vue'
 import Register from '../components/Register.vue'
 
 
@@ -45,9 +45,20 @@ export const routes = [
         }
     },
     {
+        path: '/forgot-password',
+        name: 'forgotpassword',
+        component: ForgotPassword,
+        meta: {
+            hideForAuth: true,
+        }
+    },
+    {
         path: '/register',
         name: 'register',
-        component: Register
+        component: Register,
+        meta: {
+            hideForAuth: true,
+        }
     },
     {
         path: '/dashboard',

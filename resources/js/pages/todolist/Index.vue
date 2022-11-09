@@ -174,14 +174,30 @@ export default {
           this.user = JSON.parse(localStorage.getItem('user'))
           this.isLoggedIn = localStorage.getItem('token') != null
           if(this.isLoggedIn === false ){
+                this.$notify({
+                    type: "error",
+                    title: "Authorization",
+                    text: "Please Log In!",
+                });
                 this.$router.push('/')
             }
         },
        async GetdataTodo(){
-            axios.get('https://testskill-fullstack.herokuapp.com/api/todo/getall')
+          await  axios.get('https://testskill-fullstack.herokuapp.com/api/todo/getall')
                 .then(response => {
                     this.todo = response.data
             }).catch(error => {
+                if(error.response.status === 401 || error.response.status === 419)
+                {
+                    localStorage.clear();
+                    this.$notify({
+                        type: "error",
+                        title: "Authorization Token is Expired",
+                        text: error.response,
+                    });
+                    this.$router.push('/')
+                }
+
                 if(error.response.status === 500){
                     this.serverErros = error.response.message + ' Opsss... Internal Server Error,Try once Again!'
                 }
