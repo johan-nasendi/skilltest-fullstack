@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\ApiCode;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,9 +12,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\ResetPasswordRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class AuthenticationController extends Controller
 {
@@ -294,30 +297,26 @@ class AuthenticationController extends Controller
      *     )
      * )
      */
-    public function reset_password(Request $request)
+    public function reset(ResetPasswordRequest $request)
     {
-        $validator = Validator::make($request->only('email','password','password_confirmation'), [
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
-        ]);
-        if ($validator->fails()) {
-            return ResponseHelper::responseValidation($validator->errors());
+        $reset_password_status = Password::reset($request->validated(), function ($user, $password) {
+            $user->password =  Hash::make($password);
+            $user->save();
+        });
+
+        if ($reset_password_status == Password::INVALID_TOKEN) {
+            return response()->json(["message" => "Invalid token provided"], 400);
         }
+        return response()->json(["message" => "Password has been successfully changed"]);
 
-        try {
 
-            $user =  User::where('id');
-            $user->email  = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->update();
-            $user->attachRole($request->role_id);
-
-            return ResponseHelper::responseSuccess('Your password has been successfully reset, Please login');
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to reset'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
     }
+
+    public function forgot() {
+        $credentials = request()->validate(['email' => 'required|email']);
+
+        Password::sendResetLink($credentials);
+        return response()->json(["message" => "Reset password link sent on your email id."]);
+    }
+
 }
