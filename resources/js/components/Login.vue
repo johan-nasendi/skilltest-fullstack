@@ -80,7 +80,7 @@
                                     </div>
                                 </form>
                                  <p class="text-muted text-right mb-4 mt-3">
-                                    <router-link class="text-white ml-1" :to="{name: 'forgotpassword'}">Forgot Password</router-link>
+                                    <router-link class="text-white ml-1" :to="{name: 'sendemail'}">Forgot Password</router-link>
                                  </p>
                                  <p class="text-muted mb-4 mt-3">I don't have an account yet?
                                     <router-link class="text-white ml-1" :to="{name: 'register'}"> Sign Up Now</router-link>

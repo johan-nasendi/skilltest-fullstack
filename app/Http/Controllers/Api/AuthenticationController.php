@@ -261,9 +261,9 @@ class AuthenticationController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/reset-password",
-     *     tags={"Authentication"},
-     *     operationId="forgotpassd",
+     *     path="/api/password/reset",
+     *     tags={"ForgotPassowrd"},
+     *     operationId="resetPassword",
      *     @OA\Parameter(
      *          name="email",
      *          description="Email",
@@ -305,18 +305,51 @@ class AuthenticationController extends Controller
         });
 
         if ($reset_password_status == Password::INVALID_TOKEN) {
-            return response()->json(["message" => "Invalid token provided"], 400);
+            return response()->json(
+                [
+                "status" => false,
+                "message" => "Invalid token provided"
+            ], 400);
         }
-        return response()->json(["message" => "Password has been successfully changed"]);
+        return response()->json(
+            [
+                "status" => true,
+                "message" => "Password has been successfully changed"
+            ]
+        );
 
 
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/password/email",
+     *     tags={"ForgotPassowrd"},
+     *     operationId="sendemail",
+     *     @OA\Parameter(
+     *          name="email",
+     *          description="Email",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="successful operation"
+     *     )
+     * )
+     */
     public function forgot() {
         $credentials = request()->validate(['email' => 'required|email']);
 
         Password::sendResetLink($credentials);
-        return response()->json(["message" => "Reset password link sent on your email id."]);
+        return response()->json(
+            [
+                "status" => true,
+                "message" => "Reset password link sent on your email id."
+            ]);
     }
 
 }

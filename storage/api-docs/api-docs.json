@@ -137,6 +137,72 @@
                 }
             }
         },
+        "/api/password/reset": {
+            "post": {
+                "tags": [
+                    "ForgotPassowrd"
+                ],
+                "operationId": "resetPassword",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "password_confirmation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/password/email": {
+            "post": {
+                "tags": [
+                    "ForgotPassowrd"
+                ],
+                "operationId": "sendemail",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
         "/api/profile/change-password": {
             "post": {
                 "tags": [

@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import Login from '../components/Login.vue'
 import ForgotPassword from '../components/ForgotPassword.vue'
+import SendEmail from '../components/SendEmail.vue'
 import Register from '../components/Register.vue'
 
 
@@ -45,7 +46,15 @@ export const routes = [
         }
     },
     {
-        path: '/forgot-password',
+        path: '/send-email',
+        name: 'sendemail',
+        component: SendEmail,
+        meta: {
+            hideForAuth: true,
+        }
+    },
+    {
+        path: '/reset-password',
         name: 'forgotpassword',
         component: ForgotPassword,
         meta: {
